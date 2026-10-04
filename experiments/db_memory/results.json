@@ -1,0 +1,105 @@
+{
+ "keyed_lookup": {
+  "query": "SELECT plan FROM customers WHERE id = 'ACME-1171'",
+  "result": "starter",
+  "ms": 0.048
+ },
+ "complaint_vs_fix": {
+  "pr": "# PR #4812: fix payment sync delay dropping line items",
+  "phrasings": [
+   {
+    "phrase": "my invoice looked wrong this month, two line items are missing",
+    "shared_with_pr": [
+     "invoice",
+     "items",
+     "line"
+    ],
+    "pct_sessions_containing": {
+     "invoice": 80.5,
+     "items": 0.1,
+     "line": 0.1
+    }
+   },
+   {
+    "phrase": "we were charged but the receipt shows the old amount",
+    "shared_with_pr": [],
+    "pct_sessions_containing": {}
+   },
+   {
+    "phrase": "the totals on our statement do not match what the card was charged",
+    "shared_with_pr": [],
+    "pct_sessions_containing": {}
+   },
+   {
+    "phrase": "line items vanish from the invoice after the payment goes through",
+    "shared_with_pr": [
+     "invoice",
+     "items",
+     "line",
+     "payment"
+    ],
+    "pct_sessions_containing": {
+     "invoice": 80.5,
+     "items": 0.1,
+     "line": 0.1,
+     "payment": 0.5
+    }
+   },
+   {
+    "phrase": "I think there is a billing bug, the PDF is missing the seat add-on",
+    "shared_with_pr": [
+     "seat"
+    ],
+    "pct_sessions_containing": {
+     "seat": 0.1
+    }
+   },
+   {
+    "phrase": "finance says the amount we paid and the amount on the invoice differ",
+    "shared_with_pr": [
+     "invoice"
+    ],
+    "pct_sessions_containing": {
+     "invoice": 80.5
+    }
+   },
+   {
+    "phrase": "our receipt dropped the extra seats we bought on Tuesday",
+    "shared_with_pr": [],
+    "pct_sessions_containing": {}
+   },
+   {
+    "phrase": "the charge went through but the bill still says the starter price",
+    "shared_with_pr": [],
+    "pct_sessions_containing": {}
+   }
+  ],
+  "phrasings_sharing_any_word": 4
+ },
+ "plan_change": {
+  "customer": "STARK-1135",
+  "history_in_sessions": [
+   {
+    "session": "S000999",
+    "date": "2026-01-28",
+    "from": "team",
+    "to": "starter"
+   }
+  ],
+  "customers_table_says": "starter"
+ },
+ "schema": {
+  "relation_types": [
+   "customer reported problem",
+   "problem fixed by PR",
+   "PR changed module",
+   "customer on plan (with dates)",
+   "agent promised follow-up",
+   "session mentions invoice",
+   "engineer authored PR",
+   "problem duplicates problem"
+  ],
+  "join_tables_needed": 8,
+  "generic_alternative": "CREATE TABLE edges (src TEXT, rel TEXT, dst TEXT, valid_from TEXT, source_id TEXT)"
+ }
+}

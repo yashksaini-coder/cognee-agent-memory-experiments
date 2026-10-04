@@ -1,0 +1,11 @@
+# generated corpora and indexes (regenerate with experiments/grep_memory/make_corpus.py)
+corpus/
+*.sqlite
+# cognee local state
+.cognee_system/
+.data_storage/
+.artifacts/
+# python
+__pycache__/
+.venv/
+*.pyc

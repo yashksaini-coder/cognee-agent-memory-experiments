@@ -1,0 +1,146 @@
+[
+ {
+  "sessions": 1000,
+  "corpus_mb": 0.8,
+  "planted_bug_reports": 8,
+  "q_billing_bug": {
+   "ms": 14.3,
+   "files": 1,
+   "recall": "1/8"
+  },
+  "q_invoice": {
+   "ms": 20.9,
+   "matching_lines": 1462,
+   "files": 811,
+   "est_tokens_returned": 29748,
+   "recall": "8/8",
+   "precision_pct": 0.99
+  },
+  "q_one_customer": {
+   "customer": "ACME-1171",
+   "ms": 12.1,
+   "files": 1,
+   "cold_ms": 81.1
+  },
+  "multi_hop": {
+   "rounds": 4,
+   "full_corpus_scans": 2,
+   "ms_total": 29.9,
+   "est_tokens_returned": 200,
+   "customers_found": 8,
+   "customers_expected": 8
+  },
+  "stale_fact": {
+   "customer": "STARK-1135",
+   "plan_statements_returned": [
+    "STARK-1135 moved to the starter plan",
+    "STARK-1135 is on the team plan"
+   ],
+   "true_current": "starter"
+  },
+  "fts5": {
+   "build_s_once": 0.08,
+   "q_invoice_ms": 1.47,
+   "q_invoice_files": 687,
+   "q_one_customer_ms": 0.03,
+   "q_one_customer_files": 1,
+   "q_billing_bug_recall": "1/8"
+  }
+ },
+ {
+  "sessions": 10000,
+  "corpus_mb": 7.5,
+  "planted_bug_reports": 49,
+  "q_billing_bug": {
+   "ms": 44.1,
+   "files": 9,
+   "recall": "9/49"
+  },
+  "q_invoice": {
+   "ms": 105.6,
+   "matching_lines": 14759,
+   "files": 8053,
+   "est_tokens_returned": 302045,
+   "recall": "41/49",
+   "precision_pct": 0.51
+  },
+  "q_one_customer": {
+   "customer": "ACME-1171",
+   "ms": 46.4,
+   "files": 1,
+   "cold_ms": 534.7
+  },
+  "multi_hop": {
+   "rounds": 4,
+   "full_corpus_scans": 2,
+   "ms_total": 97.3,
+   "est_tokens_returned": 935,
+   "customers_found": 48,
+   "customers_expected": 48
+  },
+  "stale_fact": {
+   "customer": "STARK-1135",
+   "plan_statements_returned": [
+    "STARK-1135 moved to the starter plan",
+    "STARK-1135 is on the team plan"
+   ],
+   "true_current": "starter"
+  },
+  "fts5": {
+   "build_s_once": 0.54,
+   "q_invoice_ms": 14.51,
+   "q_invoice_files": 6969,
+   "q_one_customer_ms": 0.05,
+   "q_one_customer_files": 1,
+   "q_billing_bug_recall": "9/49"
+  }
+ },
+ {
+  "sessions": 100000,
+  "corpus_mb": 74.2,
+  "planted_bug_reports": 484,
+  "q_billing_bug": {
+   "ms": 426.0,
+   "files": 63,
+   "recall": "63/484"
+  },
+  "q_invoice": {
+   "ms": 1122.4,
+   "matching_lines": 147874,
+   "files": 81049,
+   "est_tokens_returned": 3023816,
+   "recall": "427/484",
+   "precision_pct": 0.53
+  },
+  "q_one_customer": {
+   "customer": "ACME-1171",
+   "ms": 386.7,
+   "files": 34,
+   "cold_ms": 4614.3
+  },
+  "multi_hop": {
+   "rounds": 4,
+   "full_corpus_scans": 2,
+   "ms_total": 897.5,
+   "est_tokens_returned": 8701,
+   "customers_found": 442,
+   "customers_expected": 442
+  },
+  "stale_fact": {
+   "customer": "STARK-1135",
+   "plan_statements_returned": [
+    "STARK-1135 moved to the starter plan",
+    "STARK-1135 is on the team plan"
+   ],
+   "true_current": "starter"
+  },
+  "fts5": {
+   "build_s_once": 6.43,
+   "q_invoice_ms": 128.78,
+   "q_invoice_files": 70256,
+   "q_one_customer_ms": 0.32,
+   "q_one_customer_files": 34,
+   "q_billing_bug_recall": "63/484"
+  }
+ }
+]
