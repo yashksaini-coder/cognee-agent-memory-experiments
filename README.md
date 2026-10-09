@@ -60,6 +60,7 @@ figures/
   make_figures.py       renders every PNG below from the two results.json files (needs playwright)
   grep-*.png db-*.png   charts used in the articles
   m1-*.png .. m8-*.png  explainer slides used in short posts
+demos/                  one runnable demo per demo request in cognee's review
 articles/               the two long-form write-ups, with the numbers they cite
 posts/                  two short educational posts, one per article
 mini-posts/             M1-M8, one idea each, with its explainer slide

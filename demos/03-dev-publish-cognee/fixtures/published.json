@@ -1,0 +1,47 @@
+{
+  "fixtures/blogs/01-grep-as-agent-memory.md": {
+    "articleId": 1000,
+    "title": "grep as Agent Memory: What It Costs at 100,000 Sessions",
+    "url": "https://dev.to/example/grep-as-agent-memory",
+    "published": true,
+    "publishedDate": "2026-10-02T09:00:00.000Z",
+    "lastUpdated": "2026-10-02T09:00:00.000Z",
+    "contentHash": "fcc03690bcb4668201fb99607660799647a483021d6ddab7cadbd0a2272481a3"
+  },
+  "fixtures/blogs/02-just-use-a-database.md": {
+    "articleId": 1001,
+    "title": "\"Just Use a Database\": I Loaded 10,000 Agent Sessions into SQLite to Check",
+    "url": "https://dev.to/example/just-use-a-database-sqlite",
+    "published": true,
+    "publishedDate": "2026-10-03T09:00:00.000Z",
+    "lastUpdated": "2026-10-03T09:00:00.000Z",
+    "contentHash": "7f7a1948e4e9283e1368d113c3d9264751dad043efd50829e18a321b77047082"
+  },
+  "fixtures/blogs/m1-agent-writes-back-not-rag.md": {
+    "articleId": 1002,
+    "title": "The moment your agent writes back, it isn't RAG anymore",
+    "url": "https://dev.to/example/agent-writes-back-not-rag",
+    "published": true,
+    "publishedDate": "2026-10-04T09:00:00.000Z",
+    "lastUpdated": "2026-10-04T09:00:00.000Z",
+    "contentHash": "4bceba12bfc4a7e74f0aa3075c621b4670d3835dbd08f8b1611a09fc68c7f916"
+  },
+  "fixtures/blogs/m6-300-tokens-beat-113k.md": {
+    "articleId": 1003,
+    "title": "A 300-token prompt beat a 113k-token one",
+    "url": "https://dev.to/example/300-tokens-beat-113k",
+    "published": true,
+    "publishedDate": "2026-10-06T09:00:00.000Z",
+    "lastUpdated": "2026-10-06T09:00:00.000Z",
+    "contentHash": "a627e64a82f4f67c029fc0e736864a11577ee8d1a2eb57c67637f1e7d7142904"
+  },
+  "fixtures/blogs/m7-benchmarks-vs-production.md": {
+    "articleId": 1004,
+    "title": "Benchmarks score memory. Production scores behaviour",
+    "url": "https://dev.to/example/benchmarks-vs-production",
+    "published": true,
+    "publishedDate": "2026-10-07T09:00:00.000Z",
+    "lastUpdated": "2026-10-07T09:00:00.000Z",
+    "contentHash": "3339a45e311bb58b5e32c77df642d3961094f45219a225cf75366df79eaa9ed4"
+  }
+}
