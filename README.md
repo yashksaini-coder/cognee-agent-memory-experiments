@@ -80,32 +80,34 @@ The text lives here too, so every claim sits next to the script that produced it
 
 ### Articles
 
-| File | Title | Figures |
-| --- | --- | --- |
-| [01-grep-as-agent-memory.md](articles/01-grep-as-agent-memory.md) | grep as Agent Memory: What It Costs at 100,000 Sessions | `grep-latency`, `grep-recall` |
-| [02-just-use-a-database.md](articles/02-just-use-a-database.md) | "Just Use a Database": I Loaded 10,000 Agent Sessions into SQLite to Check | `db-key-vs-question`, `db-word-overlap`, `db-five-jobs` |
+| File | Title | Figures | APPROVED |
+| --- | --- | --- | --- |
+| [01-grep-as-agent-memory.md](articles/01-grep-as-agent-memory.md) | grep as Agent Memory: What It Costs at 100,000 Sessions | `grep-latency`, `grep-recall` | ✅ |
+| [02-just-use-a-database.md](articles/02-just-use-a-database.md) | "Just Use a Database": I Loaded 10,000 Agent Sessions into SQLite to Check | `db-key-vs-question`, `db-word-overlap`, `db-five-jobs` | ✅ |
 
 ### Posts
 
-| File | Title | Figures |
-| --- | --- | --- |
-| [post-why-grep-is-expensive-as-agent-memory.md](posts/post-why-grep-is-expensive-as-agent-memory.md) | Why grep is expensive as agent memory | `grep-four-ways`, `grep-latency` |
-| [post-just-use-a-database-is-half-right.md](posts/post-just-use-a-database-is-half-right.md) | "Just use a database" is half right | `db-five-jobs`, `db-word-overlap` |
+| File | Title | Figures | APPROVED |
+| --- | --- | --- | --- |
+| [post-why-grep-is-expensive-as-agent-memory.md](posts/post-why-grep-is-expensive-as-agent-memory.md) | Why grep is expensive as agent memory | `grep-four-ways`, `grep-latency` | — |
+| [post-just-use-a-database-is-half-right.md](posts/post-just-use-a-database-is-half-right.md) | "Just use a database" is half right | `db-five-jobs`, `db-word-overlap` | — |
 
 ### Mini-posts
 
 One idea each, with its explainer slide and both a LinkedIn and an X version.
 
-| File | Title | Figure |
-| --- | --- | --- |
-| [m1-agent-writes-back-not-rag.md](mini-posts/m1-agent-writes-back-not-rag.md) | The moment your agent writes back, it isn't RAG anymore | `m1-rag-vs-memory` |
-| [m2-four-places-knowledge-lives.md](mini-posts/m2-four-places-knowledge-lives.md) | Four places an AI's knowledge can live | `m2-four-places` |
-| [m3-three-ways-to-store-memory.md](mini-posts/m3-three-ways-to-store-memory.md) | Three ways to store agent memory, and what each one misses | `m3-three-stores` |
-| [m4-facts-skills-scratch-space.md](mini-posts/m4-facts-skills-scratch-space.md) | Facts, skills and scratch space | `m4-three-kinds` |
-| [m5-fits-in-context-skip-memory-layer.md](mini-posts/m5-fits-in-context-skip-memory-layer.md) | If the history fits in the context window, skip the memory layer | `m5-benchmark-sizes` |
-| [m6-300-tokens-beat-113k.md](mini-posts/m6-300-tokens-beat-113k.md) | A 300-token prompt beat a 113k-token one | `m6-context-rot` |
-| [m7-benchmarks-vs-production.md](mini-posts/m7-benchmarks-vs-production.md) | Benchmarks score memory. Production scores behaviour | `m7-doordash` |
-| [m8-reading-a-benchmark-claim.md](mini-posts/m8-reading-a-benchmark-claim.md) | How to read an AI memory benchmark claim | `m8-benchmark-claims` |
+| File | Title | Figure | APPROVED |
+| --- | --- | --- | --- |
+| [m1-agent-writes-back-not-rag.md](mini-posts/m1-agent-writes-back-not-rag.md) | The moment your agent writes back, it isn't RAG anymore | `m1-rag-vs-memory` | ✅ |
+| [m2-four-places-knowledge-lives.md](mini-posts/m2-four-places-knowledge-lives.md) | Four places an AI's knowledge can live | `m2-four-places` | ❌ |
+| [m3-three-ways-to-store-memory.md](mini-posts/m3-three-ways-to-store-memory.md) | Three ways to store agent memory, and what each one misses | `m3-three-stores` | ❌ |
+| [m4-facts-skills-scratch-space.md](mini-posts/m4-facts-skills-scratch-space.md) | Facts, skills and scratch space | `m4-three-kinds` | ❌ |
+| [m5-fits-in-context-skip-memory-layer.md](mini-posts/m5-fits-in-context-skip-memory-layer.md) | If the history fits in the context window, skip the memory layer | `m5-benchmark-sizes` | ❌ |
+| [m6-300-tokens-beat-113k.md](mini-posts/m6-300-tokens-beat-113k.md) | A 300-token prompt beat a 113k-token one | `m6-context-rot` | ✅ |
+| [m7-benchmarks-vs-production.md](mini-posts/m7-benchmarks-vs-production.md) | Benchmarks score memory. Production scores behaviour | `m7-doordash` | ✅ |
+| [m8-reading-a-benchmark-claim.md](mini-posts/m8-reading-a-benchmark-claim.md) | How to read an AI memory benchmark claim | `m8-benchmark-claims` | ❌ |
+
+✅ approved by cognee, ❌ not approved, — not yet reviewed. Verdicts are from the v1 review of M1-M8 and both articles; the two short posts were not in that round.
 
 Figures are referenced as `../figures/*.png`, so they render in the repo. Publishing to DEV, LinkedIn or X means uploading the PNG there and swapping the path for the hosted URL. Canonical links will be added once the articles are live.
 
