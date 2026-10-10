@@ -83,8 +83,8 @@ The text lives here too, so every claim sits next to the script that produced it
 
 | File | Title | Figures | APPROVED |
 | --- | --- | --- | --- |
-| [01-grep-as-agent-memory.md](articles/01-grep-as-agent-memory.md) | grep as Agent Memory: What It Costs at 100,000 Sessions | `grep-latency`, `grep-recall` | ✅ |
-| [02-just-use-a-database.md](articles/02-just-use-a-database.md) | "Just Use a Database": I Loaded 10,000 Agent Sessions into SQLite to Check | `db-key-vs-question`, `db-word-overlap`, `db-five-jobs` | ✅ |
+| [01-grep-as-agent-memory.md](articles/01-grep-as-agent-memory.md) | When grep Works as Agent Memory, and When It Fails: 100,000 Sessions Measured | `grep-latency`, `grep-recall` | ✅ |
+| [02-just-use-a-database.md](articles/02-just-use-a-database.md) | When a Database Is Not Enough for Agent Memory: 10,000 Sessions in SQLite | `db-key-vs-question`, `db-word-overlap`, `db-five-jobs` | ✅ |
 
 ### Posts
 

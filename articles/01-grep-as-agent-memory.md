@@ -1,5 +1,5 @@
 ---
-title: "grep as Agent Memory: What It Costs at 100,000 Sessions"
+title: "When grep Works as Agent Memory, and When It Fails: 100,000 Sessions Measured"
 published: false
 description: "Coding agents get far with glob and grep. I saved 100k synthetic support sessions to disk and measured what grep costs as an agent's memory: latency, tokens, missed phrasings and stale facts."
 tags: ai, agents, llm, performance
@@ -96,6 +96,17 @@ STARK-1135 is on the team plan
 
 Both statements come back in file order, with no dates attached. The customer moved from team to starter on 28 Jan. To know that, the agent has to open both files, read the dates, and work it out each time someone asks.
 
+## When grep is the right answer
+
+Everything above is a failure case, so it is worth being precise about where grep wins outright.
+
+- **The memory is small.** At 1,000 sessions the warm lookup is 12.1 ms and the whole corpus is 0.8 MB. Below roughly that size you are optimising something that costs nothing. A single `memory.md` the agent reads whole is simpler still.
+- **Both sides use the same string.** Customer IDs, session IDs, error codes, file paths, stack frames. Round 3 of the multi-hop question worked perfectly because session IDs are exact: grep's recall on an exact token is 100%, and no embedding beats that.
+- **Nothing can go stale.** There is no index to rebuild and no extraction to re-run, which is exactly why Cherny's team dropped their vector database. grep reads what is on disk right now.
+- **Setup has to be zero.** No write-time pipeline, no model, no API key, no migration.
+
+The pattern: grep is strong when the question contains the answer's literal text and the corpus is small enough to scan. It breaks when the question is phrased differently from the memory, when answering needs two hops that aren't joined by a literal string, or when the same fact was written twice at different times.
+
 ## What fixes each problem
 
 Each failure above needs work done once, when the memory is written, rather than on every read:
@@ -135,7 +146,7 @@ asyncio.run(main())
 - **The corpus is synthetic.** It is shaped like support data, but real conversations are messier and use even more vocabulary.
 - **Token counts are estimates** at 4 characters per token. I couldn't download a tokenizer in my test environment.
 - **The Cognee side is not measured here.** Extraction costs an LLM call per chunk, or CPU time in keyless mode, and that cost is what you pay instead of the full scan. The script below runs the same questions through Cognee so you can measure it on your own data.
-- **grep is the right tool** for code, where identifiers are exact and the repo is always current. It is also fine for a memory small enough to read whole, such as a single `memory.md`.
+- **grep is good at exact identifiers,** and fine for a memory small enough to read whole, such as a single `memory.md`. It is not the whole answer for code, though. "Which functions call `process_payment`?" is the same multi-hop question as the PR one above, and a regex answers it only where the name appears literally: not through a wrapper, an alias or an injected dependency. Cognee's [code graph pipeline](https://docs.cognee.ai/guides/code-graph) parses a repository's AST into typed nodes and edges — functions, classes, call relationships, import chains, module dependencies — so the agent traverses the call chain instead of guessing which identifier to search for.
 
 ## Run it yourself
 
@@ -144,7 +155,7 @@ The scripts are in [yashksaini-coder/cognee-agent-memory-experiments](https://gi
 ```bash
 python experiments/grep_memory/make_corpus.py corpus/100000 100000 # generate the sessions
 python experiments/grep_memory/bench.py corpus 1000 10000 100000   # grep, FTS5, multi-hop, stale facts
-python experiments/cognee_demo/run_cognee_demo.py corpus/10000     # the same questions through Cognee 1.6.1
+python demos/01-cognee-vs-grep/compare.py corpus/10000             # the same four questions, grep vs Cognee
 ```
 
 Cognee's [AI agent memory guide](https://www.cognee.ai/blog/fundamentals/agent-memory) covers the write and read paths in more depth.

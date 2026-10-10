@@ -1,5 +1,5 @@
 ---
-title: "\"Just Use a Database\": I Loaded 10,000 Agent Sessions into SQLite to Check"
+title: "When a Database Is Not Enough for Agent Memory: 10,000 Sessions in SQLite"
 published: false
 description: "A database answers keyed questions instantly. Agents ask questions with no key in them. I measured where SQLite stops helping an agent, and why the missing piece is mostly relationships."
 tags: ai, agents, database, sql
@@ -146,7 +146,7 @@ The scripts are in [yashksaini-coder/cognee-agent-memory-experiments](https://gi
 ```bash
 python experiments/grep_memory/make_corpus.py corpus/10000 10000 # the same sessions as the grep article
 python experiments/db_memory/db_demo.py corpus/10000             # keyed lookup, word overlap, plan history
-python experiments/cognee_demo/run_cognee_demo.py corpus/10000   # the same questions through Cognee 1.6.1
+python demos/02-cognee-graph/build_graph.py corpus/10000         # build the graph, dump it, render graph.html
 ```
 
 Cognee's [AI agent memory guide](https://www.cognee.ai/blog/fundamentals/agent-memory) walks through the write path in more depth.

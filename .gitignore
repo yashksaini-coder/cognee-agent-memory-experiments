@@ -13,3 +13,4 @@ __pycache__/
 .venv-figs/
 # hand-off bundle, rebuilt from figures/v2
 approved-figures.zip
+.venv-cognee/
