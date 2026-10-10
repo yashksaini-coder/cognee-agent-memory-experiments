@@ -14,3 +14,6 @@ __pycache__/
 # hand-off bundle, rebuilt from figures/v2
 approved-figures.zip
 .venv-cognee/
+
+# hand-off bundles, rebuilt from figures/v2 + the markdown
+approved-cognee-content-*.zip
