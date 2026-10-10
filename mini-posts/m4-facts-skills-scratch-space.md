@@ -27,3 +27,8 @@ Store them the same way and you get scratch notes in long-term memory.
 ## Source
 
 - [AI Agent Memory: The Definitive Guide](https://www.cognee.ai/blog/fundamentals/agent-memory), Cognee, 7 Aug 2026
+
+
+----
+
+verdict: cognee does not use long term memory, but this can do if they does use it 

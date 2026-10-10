@@ -31,3 +31,7 @@ Run the on/off test on your own workload.
 
 - [AI Memory Benchmarks: The Complete Guide](https://www.cognee.ai/ai-memory-benchmarks), Cognee, 1 Sep 2026
 - [Building Ask DoorDash (Part 2): Intelligence](https://careersatdoordash.com/blog/building-ask-doordash-part-two-intelligence/), DoorDash, 18 Jun 2026
+
+----
+
+Initially benchmarks are useless, how 
