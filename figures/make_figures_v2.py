@@ -6,8 +6,9 @@ near-black cards on light grey, monospace for anything that is code, no colour.
 Usage: pip install playwright && playwright install chromium
        python figures/make_figures_v2.py figures/v2        (from the repo root)
 
-Covers only the eight figures for material cognee approved in the v1 review
-(articles 01 and 02, M1, M6, M7). make_figures.py still renders all fourteen.
+Covers the eight figures for material cognee approved in the v1 review (articles 01
+and 02, M1, M6, M7), plus the four for the v2 slate (article 03 and its post share
+pub-hash-vs-topic; M9, M10, M11). make_figures.py still renders all fourteen v1 ones.
 """
 
 import json
@@ -314,10 +315,177 @@ def m7():
                 "Source: DoorDash engineering blog, Building Ask DoorDash (Part 2): Intelligence, 18 Jun 2026")
 
 
+# ---------- article 03 / M9 / M10 / M11: the publisher and the index ----------
+
+# demos/03-dev-publish-cognee writes no results.json, so its numbers are literals here.
+# Source: the stdout of
+#     cd demos/03-dev-publish-cognee && npm run demo        (offline, no LLM key set)
+# run on 19 Oct 2026. The demo recomputes them from fixtures/blogs on every run.
+PUB = {
+    "posts": 5,
+    "corpus_kb": 9.3,
+    "hash_matches": 0,          # contentHash   0/5
+    "tag_matches": 5,           # tag overlap   5/5
+    "word_matches": 5,          # word overlap  5/5
+    "word_overlap": [           # shared content words, per prior post
+        ("01-grep-as-agent-memory.md", 56),
+        ("02-just-use-a-database.md", 83),
+        ("m1-agent-writes-back-not-rag.md", 28),
+        ("m6-300-tokens-beat-113k.md", 14),
+        ("m7-benchmarks-vs-production.md", 11),
+    ],
+}
+PUB_RANKED = sorted(PUB["word_overlap"], key=lambda r: -r[1])
+PUB_FOOT = f"{PUB['posts']} published posts, {PUB['corpus_kb']} KB. demos/03-dev-publish-cognee, npm run demo"
+
+GREP100 = next(r for r in GREP if r["sessions"] == 100000)
+
+
+def pub_row(q, sub, big, note, first=False):
+    border = "" if first else f"border-top:1.5px solid {RULE};"
+    return (f"<div style='display:flex;align-items:center;gap:34px;padding:23px 0;{border}'>"
+            f"<div style='width:336px'>"
+            f"<div class='mono' style='font-size:26px;color:{WHITE}'>{q}</div>"
+            f"<div class='mono' style='font-size:19px;color:{DIMMER};margin-top:9px'>{sub}</div></div>"
+            f"<div class='big' style='font-size:70px;width:186px'>{big}</div>"
+            f"<div class='p' style='flex:1'>{note}</div></div>")
+
+
+def pub_hash_vs_topic():
+    floor = PUB_RANKED[-1][1]
+    # footer contrast line: the support corpus fails the other way round
+    phr = DB["complaint_vs_fix"]["phrasings"]
+    no_word = len(phr) - DB["complaint_vs_fix"]["phrasings_sharing_any_word"]
+
+    # the five per-post counts, ranked, with a hairline floor under the group
+    W, H, X0, DX = 1316, 150, 120, 200
+    g = [f"<text x='0' y='18' font-size='21' fill='{DIM}'>"
+         f"shared content words, one count per prior post</text>"]
+    for i, (fn, c) in enumerate(PUB_RANKED):
+        x = X0 + i * DX
+        g.append(f"<text x='{x}' y='92' text-anchor='middle' class='m' font-size='56' font-weight='700' "
+                 f"fill='{WHITE}'>{c}</text>")
+    x_end = X0 + 4 * DX
+    g.append(f"<line x1='{X0 - 72}' x2='{x_end + 72}' y1='114' y2='114' stroke='{RULE}' stroke-width='1.5'/>"
+             f"<line x1='{x_end}' x2='{x_end}' y1='114' y2='126' stroke='{DIM}' stroke-width='1.5'/>"
+             f"<text x='{x_end + 72}' y='144' text-anchor='end' font-size='22' fill='{DIM}'>"
+             f"floor: {floor} shared words. Not one zero.</text>")
+    strip = (f"<div style='padding:10px 0 0'><svg width='{W}' height='{H}' viewBox='0 0 {W} {H}'>"
+             f"{''.join(g)}</svg></div>")
+
+    card = (f"<div class='card grow col' style='gap:0'>"
+            + pub_row("contentHash", "sha256(new post) vs data/published.json",
+                      f"{PUB['hash_matches']}/{PUB['posts']}",
+                      "No match until the bytes are identical. This is the whole retrieval "
+                      "capability of the publisher I already had.", first=True)
+            + pub_row("tag overlap", "tags: ai agents database graph",
+                      f"{PUB['tag_matches']}/{PUB['posts']}",
+                      "Every prior post shares at least one tag with the new one.")
+            + pub_row("word overlap", "content words shared with the new post",
+                      f"{PUB['word_matches']}/{PUB['posts']}",
+                      "Every prior post shares words too. The counts below are the ranking it gives me.")
+            + strip + "</div>")
+    return page("A content hash matches 0 of 5. Word overlap matches 5 of 5.",
+                "What my dev.to publisher could already retrieve about my own archive, before any memory layer",
+                f"<div style='width:100%;display:flex'>{card}</div>",
+                f"{PUB_FOOT}, offline. Support corpus, for contrast: {no_word} of {len(phr)} phrasings "
+                f"share no word with the PR that fixed the bug.")
+
+
+def m9_overlap_floor():
+    floor = PUB_RANKED[-1][1]
+    W, H, L, R = 1316, 486, 452, 132
+    rows = len(PUB_RANKED)
+    top, step, bh = 36, 84, 38
+    X = lambda v: L + v / 90 * (W - L - R)
+    g = []
+    for i, (fn, c) in enumerate(PUB_RANKED):
+        y = top + i * step
+        g.append(f"<text x='{L - 24}' y='{y + bh / 2 + 8}' text-anchor='end' class='m' font-size='23' "
+                 f"fill='{DIM}'>{fn}</text>"
+                 f"<rect x='{L}' y='{y}' width='{X(c) - L}' height='{bh}' rx='3' fill='{WHITE}'/>"
+                 f"<text x='{X(c) + 18}' y='{y + bh / 2 + 10}' class='m' font-size='32' font-weight='700' "
+                 f"fill='{WHITE}'>{c}</text>")
+    y_end = top + rows * step - (step - bh)
+    g.append(f"<line x1='{X(floor)}' x2='{X(floor)}' y1='{top - 16}' y2='{y_end + 30}' "
+             f"stroke='{DIM}' stroke-width='1.5' stroke-dasharray='7 6'/>"
+             f"<text x='{X(floor)}' y='{y_end + 58}' text-anchor='start' font-size='22' fill='{DIM}'>"
+             f"&#8592; floor: {floor}. No bar ends left of this line.</text>")
+    svg = f"<svg width='{W}' height='{H}' viewBox='0 0 {W} {H}'>{''.join(g)}</svg>"
+    card = (f"<div class='card grow col' style='gap:14px'>"
+            f"<div class='p'>shared content words with the post being published</div>{svg}</div>")
+    return page(f"A ranking whose floor is {PUB_RANKED[-1][1]} is not a ranking",
+                f"Content words each of my {PUB['posts']} prior posts shares with the one I am about to publish",
+                f"<div style='width:100%;display:flex'>{card}</div>", PUB_FOOT + ".")
+
+
+def m10_cell(big, label, query):
+    return (f"<div class='grow col' style='gap:0;justify-content:center'>"
+            f"<div class='big' style='font-size:96px'>{big}</div>"
+            f"<div class='t' style='margin-top:18px;color:{WHITE}'>{label}</div>"
+            f"<div class='mono' style='font-size:20px;color:{DIM};margin-top:12px'>{query}</div></div>")
+
+
+def m10_index_same_recall():
+    r, f = GREP100, GREP100["fts5"]
+    who = r["q_one_customer"]["customer"]
+    half = lambda k, a, b, pad: (
+        f"<div class='col grow' style='gap:0;justify-content:center;padding:{pad}'>"
+        f"<div class='k'>{k}</div>"
+        f"<div class='row' style='margin-top:20px;gap:40px'>{a}{b}</div></div>")
+    # not fmt_ms(): it rounds at >= 100, and 386.7 ms must stay 386.7 ms
+    top = half(f"Time to find one customer, {r['sessions']:,} sessions",
+               m10_cell(f"{r['q_one_customer']['ms']} ms", "full scan", f"rg -l {who} sessions/"),
+               m10_cell(f"{f['q_one_customer_ms']} ms", f"index, built once in {f['build_s_once']} s",
+                        f"s MATCH '\"{who}\"'"),
+               "0 0 26px")
+    bot = half("Bug reports found, literal query",
+               m10_cell(r["q_billing_bug"]["recall"], "full scan", 'rg -l -i "billing bug" sessions/'),
+               m10_cell(f["q_billing_bug_recall"], "index", "s MATCH '\"billing bug\"'"),
+               "26px 0 0")
+    card = (f"<div class='card grow col' style='gap:0;padding:18px 34px'>{top}"
+            f"<div style='border-top:1.5px solid {RULE}'></div>{bot}</div>")
+    return page("The index removed the scan. It did not change recall.",
+                f"One customer lookup and one literal bug-report query over {r['sessions']:,} synthetic "
+                f"support sessions, with and without an SQLite FTS5 index",
+                f"<div style='width:100%;display:flex'>{card}</div>",
+                f"{r['corpus_mb']} MB of Markdown. ripgrep 14.1.0, SQLite 3.45.1 FTS5, 2 vCPU. "
+                f"Recall is against {r['planted_bug_reports']} planted bug reports. Measured 1 Oct 2026.")
+
+
+def m11_rigged_corpus():
+    h = GREP100["multi_hop"]
+    steps = [
+        ('rg -l "PR #4812" .', "full corpus scan", ""),
+        ("read the note, collect the session IDs", "",
+         "this line is why it worked, and it is the line a real PR note does not have."),
+        ("rg -e S000038 -e S000103 &hellip; sessions/", "full corpus scan", ""),
+        ('rg -N "^customer:" &lt;those sessions&gt;', "reads only what round 3 returned", ""),
+    ]
+    body = ""
+    for i, (cmd, kind, note) in enumerate(steps):
+        lead = i == 1
+        border = "" if i == 0 else f"border-top:1.5px solid {RULE};"
+        right = (f"<div class='p' style='width:470px'>{note}</div>" if note
+                 else f"<div class='mono' style='width:470px;font-size:21px;color:{DIMMER}'>{kind}</div>")
+        body += (f"<div style='flex:1;display:flex;align-items:center;gap:30px;{border}'>"
+                 f"<div class='mono' style='font-size:30px;color:{DIM};width:40px'>{i + 1}</div>"
+                 f"<div class='mono' style='flex:1;font-size:{31 if lead else 29}px;color:{WHITE};"
+                 f"font-weight:{700 if lead else 400}'>{cmd}</div>{right}</div>")
+    card = f"<div class='card grow col' style='gap:0;padding:10px 34px'>{body}</div>"
+    return page("grep answered the multi-hop question, and only because I listed the session IDs",
+                "Which customers did the bug fixed in PR #4812 affect? Four rounds, two of them full scans.",
+                f"<div style='width:100%;display:flex'>{card}</div>",
+                f"{GREP100['sessions']:,} sessions, {GREP100['corpus_mb']} MB. {h['rounds']} rounds, "
+                f"{h['full_corpus_scans']} full scans, {h['ms_total']:,.1f} ms, "
+                f"{h['customers_found']} of {h['customers_expected']} customers.")
+
 FIGURES = {
     "grep-latency": grep_latency, "grep-recall": grep_recall,
     "db-key-vs-question": db_key_vs_question, "db-word-overlap": db_overlap, "db-five-jobs": five_jobs,
     "m1-rag-vs-memory": m1, "m6-context-rot": m6, "m7-doordash": m7,
+    "pub-hash-vs-topic": pub_hash_vs_topic, "m9-overlap-floor": m9_overlap_floor,
+    "m10-index-same-recall": m10_index_same_recall, "m11-rigged-corpus": m11_rigged_corpus,
 }
 
 if __name__ == "__main__":

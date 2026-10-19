@@ -86,6 +86,7 @@ The text lives here too, so every claim sits next to the script that produced it
 | --- | --- | --- | --- |
 | [01-grep-as-agent-memory.md](articles/01-grep-as-agent-memory.md) | When grep Works as Agent Memory, and When It Fails: 100,000 Sessions Measured | `grep-latency`, `grep-recall` | ✅ |
 | [02-just-use-a-database.md](articles/02-just-use-a-database.md) | When a Database Is Not Enough for Agent Memory: 10,000 Sessions in SQLite | `db-key-vs-question`, `db-word-overlap`, `db-five-jobs` | ✅ |
+| [03-hash-knows-the-file-changed.md](articles/03-hash-knows-the-file-changed.md) | A Content Hash Knows the File Changed. It Cannot Know I Already Wrote This Post | `pub-hash-vs-topic` | — |
 
 ### Posts
 
@@ -93,6 +94,7 @@ The text lives here too, so every claim sits next to the script that produced it
 | --- | --- | --- | --- |
 | [post-why-grep-is-expensive-as-agent-memory.md](posts/post-why-grep-is-expensive-as-agent-memory.md) | Why grep is expensive as agent memory | `grep-four-ways`, `grep-latency` | — |
 | [post-just-use-a-database-is-half-right.md](posts/post-just-use-a-database-is-half-right.md) | "Just use a database" is half right | `db-five-jobs`, `db-word-overlap` | — |
+| [post-hash-vs-have-i-written-this.md](posts/post-hash-vs-have-i-written-this.md) | My publisher knew the file changed. It had no idea I had written the post before | `pub-hash-vs-topic` | — |
 
 ### Mini-posts
 
@@ -108,6 +110,9 @@ One idea each, with its explainer slide and both a LinkedIn and an X version.
 | [m6-300-tokens-beat-113k.md](mini-posts/m6-300-tokens-beat-113k.md) | A 300-token prompt beat a 113k-token one | `m6-context-rot` | ✅ |
 | [m7-benchmarks-vs-production.md](mini-posts/m7-benchmarks-vs-production.md) | Benchmarks score memory. Production scores behaviour | `m7-doordash` | ✅ |
 | [m8-reading-a-benchmark-claim.md](mini-posts/m8-reading-a-benchmark-claim.md) | How to read an AI memory benchmark claim | `m8-benchmark-claims` | ❌ |
+| [m9-a-ranking-whose-floor-is-eleven.md](mini-posts/m9-a-ranking-whose-floor-is-eleven.md) | A ranking whose floor is 11 is not a ranking | `m9-overlap-floor` | — |
+| [m10-index-changed-recall-by-zero.md](mini-posts/m10-index-changed-recall-by-zero.md) | The index took the lookup from 386.7 ms to 0.32 ms and found exactly the same 63 reports | `m10-index-same-recall` | — |
+| [m11-it-only-worked-because-i-rigged-the-corpus.md](mini-posts/m11-it-only-worked-because-i-rigged-the-corpus.md) | grep answered the multi-hop question, and only because I listed the session IDs myself | `m11-rigged-corpus` | — |
 
 ✅ approved by cognee, ❌ not approved, — not yet reviewed. Verdicts are from the v1 review of M1-M8 and both articles; the two short posts were not in that round.
 

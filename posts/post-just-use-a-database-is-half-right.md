@@ -1,7 +1,7 @@
 # Post: "Just use a database" is half right
 
 **For:** Cognee's LinkedIn and X, in the Post 2 format. This replaces Post 3, as Veljko asked on 29 Sep: "DB vs memory layer → importance of graph".
-**Target phrase:** database vs memory layer for AI agents. **Length:** 515 words.
+**Target phrase:** database vs memory layer for AI agents. **Length:** 518 words.
 **No disclosure line:** Cognee publishes this from its own accounts.
 
 ## Post
