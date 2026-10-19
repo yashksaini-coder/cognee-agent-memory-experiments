@@ -71,7 +71,7 @@ rg -l ACME-1171 corpus/100000/sessions
 
 A selective question. ripgrep still has to read every file to answer it, so the time grows with the folder: 12 ms at 1k sessions, 46 ms at 10k, 387 ms at 100k on the test machine. `cold_ms` repeats the lookup after dropping the page cache, which is what a memory folder looks like after a restart; it needs root and is `null` otherwise. Cold, the 100k lookup took 4.6 seconds.
 
-![Line chart: grep's cost grows with the memory. An index stays flat.](figures/grep-latency.png)
+![Line chart: grep's cost grows with the memory. An index stays flat.](figures/v2/grep-latency.png)
 
 ### `q_billing_bug` and `q_invoice`: literal search vs how people talk
 
@@ -82,7 +82,7 @@ rg -il "invoice" corpus/100000/sessions | wc -l          # 81,049 files
 
 The precise query finds 63 of 484 bug reports (13%), because only one of the 8 phrasings contains those words. The broad query finds 427 of 484 (88%), but matches 81% of all sessions. `est_tokens_returned` is the size of what the agent would have to read, at 4 characters per token: about 3 million tokens at 100k sessions. `precision_pct` is how much of that is relevant: 0.53%.
 
-![Bar charts: the precise keyword misses most reports, the broad one returns almost everything.](figures/grep-recall.png)
+![Bar charts: the precise keyword misses most reports, the broad one returns almost everything.](figures/v2/grep-recall.png)
 
 ### `multi_hop`: a connected question
 
@@ -128,7 +128,7 @@ CREATE TABLE prs       (number INTEGER PRIMARY KEY, title TEXT, body TEXT);
 
 `SELECT plan FROM customers WHERE id = 'ACME-1171'` returns `starter` in 0.048 ms. If your agent's questions look like this, with an ID in them, use a table and stop here.
 
-![Left: a SQL lookup by customer ID. Right: a complaint, a PR and a customer that no key or shared word connects.](figures/db-key-vs-question.png)
+![Left: a SQL lookup by customer ID. Right: a complaint, a PR and a customer that no key or shared word connects.](figures/v2/db-key-vs-question.png)
 
 ### `complaint_vs_fix`: nothing to join on
 
@@ -136,7 +136,7 @@ CREATE TABLE prs       (number INTEGER PRIMARY KEY, title TEXT, body TEXT);
 
 `phrasings_sharing_any_word` is 4: half the complaints share nothing with the fix. One of the remaining four shares only "invoice", which is in 80.5% of sessions and therefore joins the complaint to almost everything. Three share a word rare enough to be useful.
 
-![Table of 8 ways customers described the bug and the words each shares with the PR that fixed it.](figures/db-word-overlap.png)
+![Table of 8 ways customers described the bug and the words each shares with the PR that fixed it.](figures/v2/db-word-overlap.png)
 
 ### `plan_change`: UPDATE forgets
 
@@ -146,7 +146,7 @@ The loader upserts the plan every time it sees a plan statement. `customers_tabl
 
 The script lists 8 relation types an extractor could find in this data ("customer reported problem", "problem fixed by PR", "customer on plan, with dates", ...). In a relational schema each one is a decision made before the first row arrives: a join table, a foreign-key column, or a history table. The alternative it prints is one generic `edges (src, rel, dst, valid_from, source_id)` table, which is a graph stored in SQL. Either way, something has to read the conversation and write the rows.
 
-![Five jobs between your agent and your database: decide what to keep, resolve entities, connect facts, track time, find a starting point.](figures/db-five-jobs.png)
+![Five jobs between your agent and your database: decide what to keep, resolve entities, connect facts, track time, find a starting point.](figures/v2/db-five-jobs.png)
 
 ## Step 4. The same questions through Cognee (optional)
 

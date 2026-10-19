@@ -43,9 +43,9 @@ h1 {{ font-size: 52px; line-height: 1.12; font-weight: 700; letter-spacing: -0.5
 .fill {{ height: 100%; }}
 .dot {{ display: inline-block; width: 16px; height: 16px; border-radius: 50%; margin-right: 10px; vertical-align: -1px; }}
 .chip {{ display: inline-block; font-size: 22px; padding: 4px 14px; border-radius: 999px; margin-right: 8px; }}
-table {{ border-collapse: collapse; width: 100%; height: 100%; font-size: 27px; }}
+table {{ border-collapse: collapse; width: 100%; height: 100%; font-size: 24px; }}
 th {{ text-align: left; font-size: 20px; color: {INK2}; text-transform: uppercase; letter-spacing: 1.2px; padding: 0 16px 12px 0; }}
-td {{ padding: 13px 16px 13px 0; border-top: 1.5px solid {GRID}; vertical-align: middle; }}
+td {{ padding: 9px 16px 9px 0; border-top: 1.5px solid {GRID}; vertical-align: middle; }}
 svg text {{ font-family: Carlito, 'DejaVu Sans', sans-serif; }}
 """
 
@@ -69,7 +69,7 @@ def grep_latency():
         ("grep, warm cache", BLUE, [r["q_one_customer"]["ms"] for r in GREP]),
         ("index built once (SQLite FTS5)", AQUA, [r["fts5"]["q_one_customer_ms"] for r in GREP]),
     ]
-    W, H, L, R, T, B = 1424, 610, 110, 330, 20, 60
+    W, H, L, R, T, B = 1424, 592, 110, 330, 20, 56
     lo, hi = math.log10(0.01), math.log10(10000)
     X = lambda i: L + i * (W - L - R) / (len(sizes) - 1)
     Y = lambda v: T + (hi - math.log10(v)) / (hi - lo) * (H - T - B)
@@ -262,10 +262,10 @@ def m2():
 
 def three_cards(items, accent=None):
     return "".join(
-        f"<div class='card grow col' style='gap:34px;padding:56px 36px'>"
-        f"<div><div class='t' style='font-size:46px'>{t}</div><div class='p' style='font-size:28px;margin-top:10px'>{how}</div></div>"
-        f"<div><div class='k'><span class='dot' style='background:{AQUA}'></span>{k1}</div><div class='p' style='color:{INK};margin-top:8px;font-size:29px'>{good}</div></div>"
-        f"<div><div class='k'><span class='dot' style='background:{ORANGE}'></span>{k2}</div><div class='p' style='color:{INK};margin-top:8px;font-size:29px'>{bad}</div></div></div>"
+        f"<div class='card grow col' style='gap:26px;padding:44px 34px'>"
+        f"<div><div class='t' style='font-size:42px'>{t}</div><div class='p' style='font-size:26px;margin-top:10px'>{how}</div></div>"
+        f"<div><div class='k'><span class='dot' style='background:{AQUA}'></span>{k1}</div><div class='p' style='color:{INK};margin-top:8px;font-size:27px'>{good}</div></div>"
+        f"<div><div class='k'><span class='dot' style='background:{ORANGE}'></span>{k2}</div><div class='p' style='color:{INK};margin-top:8px;font-size:27px'>{bad}</div></div></div>"
         for i, (t, how, k1, good, k2, bad) in enumerate(items))
 
 
