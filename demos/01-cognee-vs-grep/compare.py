@@ -240,6 +240,9 @@ def render(grep: dict, cog: dict | None, sl: dict, published: dict) -> str:
 
 
 def run(corpus: Path, with_cognee: bool) -> dict:
+    if not (corpus / "truth.json").exists():  # the usage line names a path a clone has to generate
+        sys.exit(f"no corpus at {corpus}. Generate one:\n  python "
+                 f"{REPO / 'experiments' / 'grep_memory' / 'make_corpus.py'} {corpus} 10000")
     docs = pick_docs(corpus)
     cognee = load_cognee() if with_cognee else None
     with tempfile.TemporaryDirectory() as tmp:

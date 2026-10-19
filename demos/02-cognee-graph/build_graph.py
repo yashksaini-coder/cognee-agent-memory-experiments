@@ -76,11 +76,15 @@ def tag_phrasings(nodes, edges, phrasings):
     every entity the PR note mentions a fake "shared by 8" badge - which reads
     as the entity resolution cognee 1.6.1 does not do. Anything a seed points
     at - chunk -[contains]-> Entity - inherits the tag.
+
+    The blob is lowered, so the phrase has to be too: BUG_PHRASES 4 and 6 carry
+    capitals ("I think there is a billing bug...", "...on Tuesday"), and matching
+    them raw tags nothing and reports those two phrasings as reaching 0 entities.
     """
     tags = {nid: set() for nid, _ in nodes}
     blobs = {nid: json.dumps(props, default=str).lower() for nid, props in nodes}
     for i, (_sid, phrase) in enumerate(phrasings):
-        seeds = {nid for nid, b in blobs.items() if phrase in b}
+        seeds = {nid for nid, b in blobs.items() if phrase.lower() in b}
         for nid in seeds:
             tags[nid].add(i)
         for src, tgt, _rel, _p in edges:
@@ -388,6 +392,10 @@ def self_check() -> None:
     assert tags["noise"] == [] and tags["c1"] == [0] and tags["e_charge"] == [0, 1], tags
     assert tags["t_concept"] == [], tags             # two hops out, not tagged
     assert tags["pr"] == [] and tags["e_webhook"] == [], tags   # ids are not a seed key
+    # BUG_PHRASES 4 and 6 carry capitals and the two above do not, so seed them explicitly.
+    for i in (4, 6):
+        seeded = tag_phrasings([("x", {"text": BUG_PHRASES[i]})], [], [("S1", BUG_PHRASES[i])])
+        assert seeded == {"x": [0]}, (i, seeded)
 
     tmp = Path(tempfile.mkdtemp())
     html = render(payload, tmp / "graph.html").read_text()

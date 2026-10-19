@@ -29,7 +29,7 @@ function parseBlog(filePath: string, raw: string): ParsedBlog {
   return { filePath, frontmatter, body, contentHash: createHash("sha256").update(raw, "utf8").digest("hex") };
 }
 
-// dev-publish src/frontmatter.ts:42, verbatim.
+// dev-publish src/frontmatter.ts:33-49, verbatim minus its `export` and a 4-line comment.
 function normalizeTags(tags: string[] | undefined): string[] {
   if (!tags) return [];
   const seen = new Set<string>();

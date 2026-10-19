@@ -131,7 +131,7 @@ pulled the same entity out of both, and it can fail.
 the inner `try` that began at `:100` — immediately after
 `saveState(cfg.statePath, map)` + `console.log(\`${verb}: ...\`)` at `:150-151`. The
 whole diff is `seam.patch`: five files, 25 added lines, generated with `git diff` and
-verified with `git apply --check` against the four fetched files at `8b42526`. One of
+verified with `git apply --check` against the five fetched files at `8b42526`. One of
 the five is `package.json`: the lazy `await import` is still an import as far as `tsc`
 is concerned, so without the dependency `pnpm typecheck` fails with TS2307.
 
@@ -187,7 +187,7 @@ files, so row 1 is a real computation.
   store is cached or a backfill is written. `seam.patch` does not touch
   `.github/workflows/publish.yml`.
 - **The seam is not covered by any test.** Stated at the top of `seam.patch` too. What
-  *was* checked: applying `seam.patch` to the four files at `8b42526`, copying
+  *was* checked: applying `seam.patch` to the five files at `8b42526`, copying
   `src/memory.ts` and `src/memory.test.ts` in and running dev-publish's own gates -
   `tsc --noEmit` clean, `vitest run` 51 passed across 6 files, including the existing
   `config.test.ts` `toEqual` block the new config key would otherwise have broken. That

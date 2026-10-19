@@ -89,7 +89,14 @@ export class CogneeMemory {
       blog.body.slice(0, 600),
     ].join("\n");
 
-    const recall = await sdk.recall(query, { topK: 5, datasets: [DATASET] });
+    // No `datasets: [DATASET]` filter. In 0.2.0 the dataset-name filter needs a
+    // user_id that CogneeRecallOptions has no field for (CogneeSearchOptions does:
+    // `userId`), so recall() rejects it with "dataset name filter requires
+    // SearchRequest.user_id to identify the owner" before any network call. Verified
+    // 2026-10-19 on 0.2.0: the same call without `datasets` reaches the LLM instead.
+    // Harmless here - remember() below is the only writer and only ever writes
+    // DATASET, so an unfiltered graph search has nothing else to find.
+    const recall = await sdk.recall(query, { topK: 5 });
 
     const raw = recall.searchResponse?.result?.data;
     const answer = typeof raw === "string" ? raw : raw === undefined ? "" : JSON.stringify(raw);
