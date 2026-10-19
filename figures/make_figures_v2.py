@@ -480,12 +480,51 @@ def m11_rigged_corpus():
                 f"{h['full_corpus_scans']} full scans, {h['ms_total']:,.1f} ms, "
                 f"{h['customers_found']} of {h['customers_expected']} customers.")
 
+def fact_that_changed():
+    """Article 04. Two rows are measured here; three are read from each project's own
+    source or docs. The figure marks which is which, because the article's whole claim
+    is a mechanism comparison, not a benchmark."""
+    g = GREP[-1]["stale_fact"]
+    rows = [
+        ("grep", f"both statements returned, file order, no dates",
+         "you, on every read", "MEASURED"),
+        ("SQLite UPDATE", f"gone - table says {DB['plan_change']['customers_table_says']!r}",
+         "your schema, up front", "MEASURED"),
+        ("Mem0", "kept - extraction is additive",
+         "your application code", "DOCS"),
+        ("Graphiti", "kept - stamped invalid_at",
+         "the system, automatically", "SOURCE"),
+        ("Cognee", "kept - tagged superseded",
+         "you declare single-valued rels", "SOURCE"),
+    ]
+    body = ""
+    for name, fate, who, prov in rows:
+        measured = prov == "MEASURED"
+        body += (f"<div style='flex:1;display:flex;align-items:center;gap:22px;padding:0 26px;border-radius:13px;"
+                 f"background:{CARD2 if measured else CARD};"
+                 f"border-left:6px solid {WHITE if measured else RULE}'>"
+                 f"<div class='mono' style='font-size:25px;color:{WHITE};width:270px;font-weight:700'>{name}</div>"
+                 f"<div class='p' style='width:430px;color:{WHITE}'>{fate}</div>"
+                 f"<div class='p' style='flex:1'>{who}</div>"
+                 f"<div style='font-size:15px;font-weight:700;letter-spacing:1.4px;color:{DIM};width:96px;"
+                 f"text-align:right'>{prov}</div></div>")
+    main = f"<div class='col' style='width:100%;gap:11px'>{body}</div>"
+    return page("One customer changed plan. Five systems, five answers.",
+                f"{g['customer']} moved from the team plan to the starter plan. What each system "
+                f"does with the statement that is no longer true",
+                main,
+                "MEASURED: run in this repo on 10,000 synthetic sessions, 1 Oct 2026. "
+                "SOURCE / DOCS: read from each project's own documentation or source, 19 Oct 2026. "
+                "No memory layer was benchmarked here.")
+
+
 FIGURES = {
     "grep-latency": grep_latency, "grep-recall": grep_recall,
     "db-key-vs-question": db_key_vs_question, "db-word-overlap": db_overlap, "db-five-jobs": five_jobs,
     "m1-rag-vs-memory": m1, "m6-context-rot": m6, "m7-doordash": m7,
     "pub-hash-vs-topic": pub_hash_vs_topic, "m9-overlap-floor": m9_overlap_floor,
     "m10-index-same-recall": m10_index_same_recall, "m11-rigged-corpus": m11_rigged_corpus,
+    "fact-that-changed": fact_that_changed,
 }
 
 if __name__ == "__main__":
