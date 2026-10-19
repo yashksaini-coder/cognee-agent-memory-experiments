@@ -384,12 +384,24 @@ FIGURES = {
 if __name__ == "__main__":
     out = Path(sys.argv[1])
     out.mkdir(parents=True, exist_ok=True)
+    bad = 0
     with sync_playwright() as p:
         browser = p.chromium.launch()
         pg = browser.new_page(viewport={"width": 1600, "height": 900})
         for name, fn in FIGURES.items():
             pg.set_content(fn())
-            over = pg.evaluate("[document.body.scrollHeight, document.body.scrollWidth]")
+            over = pg.evaluate("""() => {
+                const b = document.body, bad = [];
+                if (b.scrollHeight > 900 || b.scrollWidth > 1600) bad.push('body');
+                // a card clips its contents without the body ever overflowing, so the
+                // body-only check reported "ok" on figures that were visibly cut off
+                for (const el of document.querySelectorAll('.card, .main'))
+                    if (el.scrollHeight > el.clientHeight + 2 || el.scrollWidth > el.clientWidth + 2)
+                        bad.push(el.className);
+                return bad;
+            }""")
             pg.screenshot(path=str(out / f"{name}.png"))
-            print(name, "overflow!" if over[0] > 900 or over[1] > 1600 else "ok", over)
+            bad += bool(over)
+            print(name, ("CLIPPED " + ", ".join(over[:3])) if over else "ok")
         browser.close()
+    sys.exit(1 if bad else 0)
