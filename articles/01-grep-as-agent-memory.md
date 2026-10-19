@@ -17,7 +17,7 @@ sessions   corpus    rg one customer (warm)   rg (cold cache)   FTS5 index
 
 That is one question, "show me everything about customer ACME-1171", asked of an agent whose memory is a folder of Markdown files. grep reads every file on every call, so the time grows with the folder. The last column is the same lookup against an index built once at write time.
 
-![Line chart: time to find one customer's sessions. grep with a cold cache rises from 81 ms at 1,000 sessions to 4,614 ms at 100,000; grep with a warm cache from 12 ms to 387 ms; an index built once stays under 0.32 ms.](../figures/grep-latency.png)
+![Line chart: time to find one customer's sessions. grep with a cold cache rises from 81 ms at 1,000 sessions to 4,614 ms at 100,000; grep with a warm cache from 12 ms to 387 ms; an index built once stays under 0.32 ms.](../figures/v2/grep-latency.png)
 
 ## Why grep is a fair contender
 
@@ -69,7 +69,7 @@ The agent wants every session about the billing bug. It searches for the obvious
 
 The precise query finds 13% of the reports. The broad query finds 88%, but at 100k sessions it matches 81% of all files, and 0.53% of what it returns is relevant. Its output is about 3 million tokens (estimated at 4 characters per token), more than any context window holds.
 
-![Bar charts: searching 'billing bug' finds 13% of bug reports; searching 'invoice' finds 88% but returns 81% of all 100,000 sessions.](../figures/grep-recall.png)
+![Bar charts: searching 'billing bug' finds 13% of bug reports; searching 'invoice' finds 88% but returns 81% of all 100,000 sessions.](../figures/v2/grep-recall.png)
 
 This is the mistake I made first: I assumed a better keyword would fix it. It doesn't. Four of the eight phrasings share no word with "billing bug" or with the PR that fixed it. The customers said "receipt", "statement", "bill" and "charge". Exact matching needs both sides to use the same words, and conversations don't.
 

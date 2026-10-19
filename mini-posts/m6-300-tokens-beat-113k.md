@@ -2,7 +2,7 @@
 
 **For:** Cognee's LinkedIn and X. **LinkedIn length:** 105 words. **X length:** 193 characters.
 
-![Long-context models lose 30-60% on LongMemEval, focused 300-token prompts beat 113k-token prompts, and BEAM scores fall from 0.24-0.28 at 128k to 0.10-0.13 at 10M.](../figures/m6-context-rot.png)
+![Long-context models lose 30-60% on LongMemEval, focused 300-token prompts beat 113k-token prompts, and BEAM scores fall from 0.24-0.28 at 128k to 0.10-0.13 at 10M.](../figures/v2/m6-context-rot.png)
 
 ## LinkedIn
 

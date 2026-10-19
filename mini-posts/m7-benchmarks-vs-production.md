@@ -2,7 +2,7 @@
 
 **For:** Cognee's LinkedIn and X. **LinkedIn length:** 124 words. **X length:** 232 characters.
 
-![Three figures from DoorDash's production test of memory: +24% grocery checkout conversion, +15% restaurant-assistant conversion, 33% less likely to misunderstand intent.](../figures/m7-doordash.png)
+![Three figures from DoorDash's production test of memory: +24% grocery checkout conversion, +15% restaurant-assistant conversion, 33% less likely to misunderstand intent.](../figures/v2/m7-doordash.png)
 
 ## LinkedIn
 

@@ -16,7 +16,7 @@ SELECT plan FROM customers WHERE id = 'ACME-1171';      -> starter      0.048 ms
 
 The first line is a database doing its job. The second is the question an agent actually gets. Everything needed to answer it is in the same database, and none of it can be joined.
 
-![Left: a SQL lookup by customer ID returns 'starter' in 0.048 ms. Right: the question 'Did the fix for ACME's billing problem ship?' with a complaint, a PR and a customer that no key or shared word connects.](../figures/db-key-vs-question.png)
+![Left: a SQL lookup by customer ID returns 'starter' in 0.048 ms. Right: the question 'Did the fix for ACME's billing problem ship?' with a complaint, a PR and a customer that no key or shared word connects.](../figures/v2/db-key-vs-question.png)
 
 ## The objection worth taking seriously
 
@@ -64,7 +64,7 @@ The fallback is to join on words. I checked how many content words each phrasing
 
 Four of the eight share nothing. One shares only "invoice", which appears in 80.5% of all sessions and so connects to almost everything. Only three share a rare enough word to be useful. `LIKE '%invoice%'` joins the complaint to the PR and to 8 out of every 10 other sessions as well.
 
-![Table of 8 ways customers described the bug and the words each shares with the PR that fixed it: 4 share none, 1 shares only 'invoice'.](../figures/db-word-overlap.png)
+![Table of 8 ways customers described the bug and the words each shares with the PR that fixed it: 4 share none, 1 shares only 'invoice'.](../figures/v2/db-word-overlap.png)
 
 This is where I was wrong at first: I expected full-text search to close the gap. It doesn't, because the gap is vocabulary, not indexing. The link between "receipt dropped the seats" and "sync delay dropping line items" exists only as meaning. Something has to read both and write the link down.
 
@@ -99,7 +99,7 @@ That table is a graph stored in SQL. It doesn't fill itself, though. Every row n
 
 ## Where the work actually is
 
-![Five jobs stacked between 'Your agent' and 'Your database': decide what to keep, resolve entities, connect facts, track time, find a starting point. The middle three are about relationships.](../figures/db-five-jobs.png)
+![Five jobs stacked between 'Your agent' and 'Your database': decide what to keep, resolve entities, connect facts, track time, find a starting point. The middle three are about relationships.](../figures/v2/db-five-jobs.png)
 
 | Job | Plain database | Memory layer |
 | --- | --- | --- |

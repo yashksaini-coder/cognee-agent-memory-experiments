@@ -2,7 +2,7 @@
 
 **For:** Cognee's LinkedIn and X. **LinkedIn length:** 139 words. **X length:** 186 characters.
 
-![Two flows. RAG: corpus to retriever to LLM, read only. Agent memory: the same flow plus an arrow from the LLM back into the memory store.](../figures/m1-rag-vs-memory.png)
+![Two flows. RAG: corpus to retriever to LLM, read only. Agent memory: the same flow plus an arrow from the LLM back into the memory store.](../figures/v2/m1-rag-vs-memory.png)
 
 ## LinkedIn
 

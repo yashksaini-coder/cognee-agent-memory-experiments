@@ -4,7 +4,7 @@ What it costs to use **grep**, a **SQLite database**, or a **memory layer (Cogne
 
 Everything here is reproducible with the Python standard library and ripgrep. The numbers behind two articles come from these scripts, and every figure is rendered from the committed `results.json` files.
 
-![Line chart: time to find one customer's sessions. grep with a cold cache rises from 81 ms at 1,000 sessions to 4,614 ms at 100,000; grep with a warm cache from 12 ms to 387 ms; an index built once peaks at 0.32 ms.](figures/grep-latency.png)
+![Line chart: time to find one customer's sessions. grep with a cold cache rises from 81 ms at 1,000 sessions to 4,614 ms at 100,000; grep with a warm cache from 12 ms to 387 ms; an index built once peaks at 0.32 ms.](figures/v2/grep-latency.png)
 
 ## The headline numbers
 
@@ -32,13 +32,13 @@ cd cognee-agent-memory-experiments
 for n in 1000 10000 100000; do python experiments/grep_memory/make_corpus.py corpus/$n $n; done
 
 # 2. grep as memory: latency, recall, tokens returned, multi-hop, stale facts, FTS5 comparison
-python experiments/grep_memory/bench.py corpus 1000 10000 100000 > my_grep_results.json
+python3 experiments/grep_memory/bench.py corpus 1000 10000 100000 > my_grep_results.json
 
 # 3. a relational database as memory: keyed lookup, word overlap, lost history, schema growth
-python experiments/db_memory/db_demo.py corpus/10000 > my_db_results.json
+python3 experiments/db_memory/db_demo.py corpus/10000 > my_db_results.json
 
 # 4. (optional) the same questions through Cognee, see GUIDE.md step 4
-python experiments/cognee_demo/run_cognee_demo.py corpus/10000
+python3 experiments/cognee_demo/run_cognee_demo.py corpus/10000
 ```
 
 Step by step, with what each number means and what to look for in the output: **[GUIDE.md](GUIDE.md)**.
@@ -57,7 +57,8 @@ experiments/
   cognee_demo/
     run_cognee_demo.py  remember() a slice of the corpus into Cognee, recall() the same questions
 figures/
-  make_figures.py       renders every PNG below from the two results.json files (needs playwright)
+  make_figures.py       renders all fourteen PNGs in the original light style (needs playwright)
+  make_figures_v2.py    renders the eight approved figures in the dark-card style -> figures/v2/
   grep-*.png db-*.png   charts used in the articles
   m1-*.png .. m8-*.png  explainer slides used in short posts
 demos/                  one runnable demo per demo request in cognee's review

@@ -6,7 +6,7 @@
 
 ## Post
 
-![Five jobs stacked between 'Your agent' and 'Your database': decide what to keep, resolve entities, connect facts, track time, find a starting point. The middle three are about relationships.](../figures/db-five-jobs.png)
+![Five jobs stacked between 'Your agent' and 'Your database': decide what to keep, resolve entities, connect facts, track time, find a starting point. The middle three are about relationships.](../figures/v2/db-five-jobs.png)
 
 Every conversation about agent memory hits the same objection: just use a database.
 
@@ -30,7 +30,7 @@ We loaded 10,000 support sessions into SQLite to see whether words could stand i
 - 1 shares only "invoice", which appears in 80% of all sessions.
 - Only 3 share a word rare enough to join on.
 
-![Table of 8 ways customers described the bug and the words each shares with the PR that fixed it: 4 share none, 1 shares only 'invoice'.](../figures/db-word-overlap.png)
+![Table of 8 ways customers described the bug and the words each shares with the PR that fixed it: 4 share none, 1 shares only 'invoice'.](../figures/v2/db-word-overlap.png)
 
 Full-text search doesn't close that gap, because the gap is vocabulary. The link exists only as meaning, and something has to read both texts and write it down.
 

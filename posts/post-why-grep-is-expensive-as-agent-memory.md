@@ -24,7 +24,7 @@ grep keeps no index, so every query reads every file. In our test, looking up on
 
 The same lookup against an index built once took 0.3 ms.
 
-![Line chart: time to find one customer's sessions. grep with a cold cache rises from 81 ms at 1,000 sessions to 4,614 ms at 100,000; grep with a warm cache from 12 ms to 387 ms; an index built once stays under 0.32 ms.](../figures/grep-latency.png)
+![Line chart: time to find one customer's sessions. grep with a cold cache rises from 81 ms at 1,000 sessions to 4,614 ms at 100,000; grep with a warm cache from 12 ms to 387 ms; an index built once stays under 0.32 ms.](../figures/v2/grep-latency.png)
 
 Memory only grows. Every conversation adds files, so the cost of every future question goes up with it. Cursor hit the same wall with code: they "routinely see `rg` invocations that take more than 15 seconds", and their fix was an index.
 
