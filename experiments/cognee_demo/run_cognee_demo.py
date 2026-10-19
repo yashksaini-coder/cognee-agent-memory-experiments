@@ -22,8 +22,6 @@ import sys
 import time
 from pathlib import Path
 
-import cognee
-
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "grep_memory"))
 from make_corpus import BUG_PHRASES  # noqa: E402
 
@@ -54,6 +52,11 @@ def pick_docs(corpus: Path) -> list[str]:
 
 
 async def main(corpus: str) -> None:
+    try:
+        import cognee  # imported late so a missing install prints a line, not a traceback
+    except ModuleNotFoundError:
+        sys.exit("cognee is not installed. See GUIDE.md step 4, or: "
+                 "uv pip install 'cognee[gliner]==1.6.1'")
     docs = pick_docs(Path(corpus))
     print(f"cognee {cognee.__version__ if hasattr(cognee, '__version__') else ''} | "
           f"LLM key: {'yes' if os.getenv('LLM_API_KEY') else 'no (keyless)'} | docs: {len(docs)}")

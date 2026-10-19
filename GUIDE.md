@@ -56,7 +56,7 @@ The generator is seeded (`SEED = 7`), so every machine gets the same 49 bug repo
 `experiments/grep_memory/bench.py` runs the same six measurements at every corpus size you pass it, and prints one JSON object per size. Each timed query is the median of 7 runs with a warm page cache.
 
 ```bash
-python experiments/grep_memory/bench.py corpus 1000 10000 100000 > my_grep_results.json
+python3 experiments/grep_memory/bench.py corpus 1000 10000 100000 > my_grep_results.json
 ```
 
 At 100k sessions this takes about a minute. Compare your file with the published `experiments/grep_memory/results.json`: your `ms` values will differ, your `recall`, `files` and `customers_found` values will match.
@@ -114,7 +114,7 @@ The script loads the same sessions into a SQLite FTS5 virtual table, times the b
 `experiments/db_memory/db_demo.py` loads the 10k corpus into an in-memory SQLite database with a reasonable schema and asks four questions. It imports the bug phrasings from `make_corpus.py`, so keep the two directories side by side.
 
 ```bash
-python experiments/db_memory/db_demo.py corpus/10000 > my_db_results.json
+python3 experiments/db_memory/db_demo.py corpus/10000 > my_db_results.json
 ```
 
 ```sql
@@ -174,7 +174,7 @@ Every chart is rendered from the two `results.json` files, so if you want figure
 
 ```bash
 pip install playwright && playwright install chromium
-python figures/make_figures.py figures
+python3 figures/make_figures.py figures
 ```
 
 The script reads `experiments/grep_memory/results.json` and `experiments/db_memory/results.json` relative to the repo root. To render from your own run, copy your output over those two files first (or edit the two paths at the top of the script). The fonts used are Carlito and DejaVu Sans; with other fonts installed the layout may shift slightly. The script prints `ok` or `overflow!` per figure.

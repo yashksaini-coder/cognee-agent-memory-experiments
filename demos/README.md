@@ -39,7 +39,7 @@ differently-worded complaints marked, so entity resolution is the thing you look
 
 ```bash
 python3 build_graph.py --self-check              # the check: no cognee
-python3 build_graph.py --from-json               # re-render graph.html from an existing dump
+python3 build_graph.py --from-json               # re-render from a dump you already built
 python3 build_graph.py /tmp/corpus/10000         # build the real graph, needs cognee
 ```
 
@@ -59,7 +59,7 @@ So the feature recalls prior coverage before publishing, links genuinely related
 vendored rather than applied, naming the commit it was written against.
 
 ```bash
-npm install --omit=prod
+npm install
 npm test          # the check: 5 assertions, no key, no network, no cognee
 npm run demo      # offline mode, from committed fixtures
 ```
