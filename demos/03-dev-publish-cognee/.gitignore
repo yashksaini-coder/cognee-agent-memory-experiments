@@ -1,2 +1,5 @@
 node_modules/
 .cognee/
+.env
+# @cognee/cognee-ts 0.2.0 writes its anonymous telemetry id into the cwd
+.anon_id

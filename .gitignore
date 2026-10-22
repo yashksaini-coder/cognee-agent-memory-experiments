@@ -22,3 +22,6 @@ approved-cognee-content-*.zip
 demos/01-cognee-vs-grep/results.json
 demos/02-cognee-graph/graph.json
 demos/02-cognee-graph/graph.html
+
+# secrets
+.env
