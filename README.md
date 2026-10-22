@@ -1,4 +1,4 @@
-# cognee-agent-memory-experiments
+# cognee-memory-experiments
 
 What it costs to use **grep**, a **SQLite database**, or a **memory layer (Cognee)** as an AI agent's long-term memory, measured on up to 100,000 synthetic support sessions.
 
@@ -80,42 +80,48 @@ GUIDE.md                the code-along
 
 The text lives here too, so every claim sits next to the script that produced it.
 
+**All of it is October 2026 work**, written for Cognee in three batches: 9 Oct (articles 01-02, two posts, M1-M8; the v1 review), 19 Oct (articles 03-04, one post, M9-M11) and 22 Oct (article 05, M12-M14). "Written" is the date each file first entered this repo.
+
 ### Articles
 
-| File | Title | Figures | APPROVED |
-| --- | --- | --- | --- |
-| [01-grep-as-agent-memory.md](articles/01-grep-as-agent-memory.md) | When grep Works as Agent Memory, and When It Fails: 100,000 Sessions Measured | `grep-latency`, `grep-recall` | ✅ |
-| [02-just-use-a-database.md](articles/02-just-use-a-database.md) | When a Database Is Not Enough for Agent Memory: 10,000 Sessions in SQLite | `db-key-vs-question`, `db-word-overlap`, `db-five-jobs` | ✅ |
-| [03-hash-knows-the-file-changed.md](articles/03-hash-knows-the-file-changed.md) | A Content Hash Knows the File Changed. It Cannot Know I Already Wrote This Post | `pub-hash-vs-topic` | — |
-| [04-fact-that-changed.md](articles/04-fact-that-changed.md) | A Customer Changed Plan. What grep, SQLite, Mem0, Graphiti and Cognee Each Do With the Old Fact | `fact-that-changed` | — |
+| File | Title | Figures | Written | APPROVED |
+| --- | --- | --- | --- | --- |
+| [01-grep-as-agent-memory.md](articles/01-grep-as-agent-memory.md) | When grep Works as Agent Memory, and When It Fails: 100,000 Sessions Measured | `grep-latency`, `grep-recall` | 9 Oct 2026 | ✅ |
+| [02-just-use-a-database.md](articles/02-just-use-a-database.md) | When a Database Is Not Enough for Agent Memory: 10,000 Sessions in SQLite | `db-key-vs-question`, `db-word-overlap`, `db-five-jobs` | 9 Oct 2026 | ✅ |
+| [03-hash-knows-the-file-changed.md](articles/03-hash-knows-the-file-changed.md) | A Content Hash Knows the File Changed. It Cannot Know I Already Wrote This Post | `pub-hash-vs-topic` | 19 Oct 2026 | — |
+| [04-fact-that-changed.md](articles/04-fact-that-changed.md) | A Customer Changed Plan. What grep, SQLite, Mem0, Graphiti and Cognee Each Do With the Old Fact | `fact-that-changed` | 19 Oct 2026 | — |
+| [05-two-mentions-one-node.md](articles/05-two-mentions-one-node.md) | When Two Mentions Become One Node in Agent Memory: Eight Phrasings of One Bug, Measured | `a05-two-names-two-nodes` | 22 Oct 2026 | — |
 
 ### Posts
 
-| File | Title | Figures | APPROVED |
-| --- | --- | --- | --- |
-| [post-why-grep-is-expensive-as-agent-memory.md](posts/post-why-grep-is-expensive-as-agent-memory.md) | Why grep is expensive as agent memory | `grep-four-ways`, `grep-latency` | — |
-| [post-just-use-a-database-is-half-right.md](posts/post-just-use-a-database-is-half-right.md) | "Just use a database" is half right | `db-five-jobs`, `db-word-overlap` | — |
-| [post-hash-vs-have-i-written-this.md](posts/post-hash-vs-have-i-written-this.md) | My publisher knew the file changed. It had no idea I had written the post before | `pub-hash-vs-topic` | — |
+| File | Title | Figures | Written | APPROVED |
+| --- | --- | --- | --- | --- |
+| [post-why-grep-is-expensive-as-agent-memory.md](posts/post-why-grep-is-expensive-as-agent-memory.md) | Why grep is expensive as agent memory | `grep-four-ways`, `grep-latency` | 9 Oct 2026 | — |
+| [post-just-use-a-database-is-half-right.md](posts/post-just-use-a-database-is-half-right.md) | "Just use a database" is half right | `db-five-jobs`, `db-word-overlap` | 9 Oct 2026 | — |
+| [post-hash-vs-have-i-written-this.md](posts/post-hash-vs-have-i-written-this.md) | My publisher knew the file changed. It had no idea I had written the post before | `pub-hash-vs-topic` | 19 Oct 2026 | — |
 
 ### Mini-posts
 
 One idea each, with its explainer slide and both a LinkedIn and an X version.
 
-| File | Title | Figure | APPROVED |
-| --- | --- | --- | --- |
-| [m1-agent-writes-back-not-rag.md](mini-posts/m1-agent-writes-back-not-rag.md) | The moment your agent writes back, it isn't RAG anymore | `m1-rag-vs-memory` | ✅ |
-| [m2-four-places-knowledge-lives.md](mini-posts/m2-four-places-knowledge-lives.md) | Four places an AI's knowledge can live | `m2-four-places` | ❌ |
-| [m3-three-ways-to-store-memory.md](mini-posts/m3-three-ways-to-store-memory.md) | Three ways to store agent memory, and what each one misses | `m3-three-stores` | ❌ |
-| [m4-facts-skills-scratch-space.md](mini-posts/m4-facts-skills-scratch-space.md) | Facts, skills and scratch space | `m4-three-kinds` | ❌ |
-| [m5-fits-in-context-skip-memory-layer.md](mini-posts/m5-fits-in-context-skip-memory-layer.md) | If the history fits in the context window, skip the memory layer | `m5-benchmark-sizes` | ❌ |
-| [m6-300-tokens-beat-113k.md](mini-posts/m6-300-tokens-beat-113k.md) | A 300-token prompt beat a 113k-token one | `m6-context-rot` | ✅ |
-| [m7-benchmarks-vs-production.md](mini-posts/m7-benchmarks-vs-production.md) | Benchmarks score memory. Production scores behaviour | `m7-doordash` | ✅ |
-| [m8-reading-a-benchmark-claim.md](mini-posts/m8-reading-a-benchmark-claim.md) | How to read an AI memory benchmark claim | `m8-benchmark-claims` | ❌ |
-| [m9-a-ranking-whose-floor-is-eleven.md](mini-posts/m9-a-ranking-whose-floor-is-eleven.md) | A ranking whose floor is 11 is not a ranking | `m9-overlap-floor` | — |
-| [m10-index-changed-recall-by-zero.md](mini-posts/m10-index-changed-recall-by-zero.md) | The index took the lookup from 386.7 ms to 0.32 ms and found exactly the same 63 reports | `m10-index-same-recall` | — |
-| [m11-it-only-worked-because-i-rigged-the-corpus.md](mini-posts/m11-it-only-worked-because-i-rigged-the-corpus.md) | grep answered the multi-hop question, and only because I listed the session IDs myself | `m11-rigged-corpus` | — |
+| File | Title | Figure | Written | APPROVED |
+| --- | --- | --- | --- | --- |
+| [m1-agent-writes-back-not-rag.md](mini-posts/m1-agent-writes-back-not-rag.md) | The moment your agent writes back, it isn't RAG anymore | `m1-rag-vs-memory` | 9 Oct 2026 | ✅ |
+| [m2-four-places-knowledge-lives.md](mini-posts/m2-four-places-knowledge-lives.md) | Four places an AI's knowledge can live | `m2-four-places` | 9 Oct 2026 | ❌ |
+| [m3-three-ways-to-store-memory.md](mini-posts/m3-three-ways-to-store-memory.md) | Three ways to store agent memory, and what each one misses | `m3-three-stores` | 9 Oct 2026 | ❌ |
+| [m4-facts-skills-scratch-space.md](mini-posts/m4-facts-skills-scratch-space.md) | Facts, skills and scratch space | `m4-three-kinds` | 9 Oct 2026 | ❌ |
+| [m5-fits-in-context-skip-memory-layer.md](mini-posts/m5-fits-in-context-skip-memory-layer.md) | If the history fits in the context window, skip the memory layer | `m5-benchmark-sizes` | 9 Oct 2026 | ❌ |
+| [m6-300-tokens-beat-113k.md](mini-posts/m6-300-tokens-beat-113k.md) | A 300-token prompt beat a 113k-token one | `m6-context-rot` | 9 Oct 2026 | ✅ |
+| [m7-benchmarks-vs-production.md](mini-posts/m7-benchmarks-vs-production.md) | Benchmarks score memory. Production scores behaviour | `m7-doordash` | 9 Oct 2026 | ✅ |
+| [m8-reading-a-benchmark-claim.md](mini-posts/m8-reading-a-benchmark-claim.md) | How to read an AI memory benchmark claim | `m8-benchmark-claims` | 9 Oct 2026 | ❌ |
+| [m9-a-ranking-whose-floor-is-eleven.md](mini-posts/m9-a-ranking-whose-floor-is-eleven.md) | A ranking whose floor is 11 is not a ranking | `m9-overlap-floor` | 19 Oct 2026 | — |
+| [m10-index-changed-recall-by-zero.md](mini-posts/m10-index-changed-recall-by-zero.md) | The index took the lookup from 386.7 ms to 0.32 ms and found exactly the same 63 reports | `m10-index-same-recall` | 19 Oct 2026 | — |
+| [m11-it-only-worked-because-i-rigged-the-corpus.md](mini-posts/m11-it-only-worked-because-i-rigged-the-corpus.md) | grep answered the multi-hop question, and only because I listed the session IDs myself | `m11-rigged-corpus` | 19 Oct 2026 | — |
+| [m12-close-the-old-fact.md](mini-posts/m12-close-the-old-fact.md) | A new fact should close the old one, not sit beside it | `m12-close-the-old-fact` | 22 Oct 2026 | — |
+| [m13-two-names-two-nodes.md](mini-posts/m13-two-names-two-nodes.md) | Two names for one thing make two nodes | `a05-two-names-two-nodes` | 22 Oct 2026 | — |
+| [m14-better-not-bigger.md](mini-posts/m14-better-not-bigger.md) | Memory should get better, not just bigger | `m14-better-not-bigger` | 22 Oct 2026 | — |
 
-✅ approved by cognee, ❌ not approved, — not yet reviewed. Verdicts are from the v1 review of M1-M8 and both articles; the two short posts were not in that round.
+✅ approved by cognee, ❌ not approved, — not yet reviewed. Verdicts are from the v1 review of M1-M8 and articles 01-02; the posts and everything written after 9 Oct were not in that round.
 
 Figures are referenced as `../figures/*.png`, so they render in the repo. Publishing to DEV, LinkedIn or X means uploading the PNG there and swapping the path for the hosted URL. Canonical links will be added once the articles are live.
 
