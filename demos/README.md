@@ -60,7 +60,7 @@ vendored rather than applied, naming the commit it was written against.
 
 ```bash
 npm install
-npm test          # the check: 5 assertions, no key, no network, no cognee
+npm test          # the check: 21 assertions, no key, no network, no cognee
 npm run demo      # offline mode, from committed fixtures
 ```
 
@@ -70,8 +70,12 @@ so it is an ordinary module beside `state.ts` and `devto.ts` rather than a Pytho
 
 ## Caveats
 
-- The Cognee paths in demos 01 and 02 were **not** executed here — no API key and no Cognee
-  install on the authoring machine. The grep, offline and self-check paths were. Each script
-  prints its own mode and timings rather than claiming a number it did not measure.
+- Demo 03's cognee rows ran on 2026-10-22 (claude-haiku-4-5 + local Ollama embeddings);
+  the verbatim output and what it does and does not show are in its README. Demo 01's
+  cognee column has not run yet. Demo 02 has run twice without a publishable result: keyless
+  on 2026-10-19 (cognee's GLiNER *demo* extractor, so the entity count says nothing about the
+  product) and with local qwen3:4b on 2026-10-22 (stopped after extraction calls hit the
+  600 s timeout). Each script prints its own mode and timings rather than claiming a number
+  it did not measure.
 - Keyless `recall()` returns chunks, not an answer, so demo 01 scores recall@k on those
   questions instead of correctness, and says so in the output.

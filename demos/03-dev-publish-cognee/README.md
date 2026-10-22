@@ -23,7 +23,9 @@ post the author never edits again.
 - Prebuilts exist for **linux-x64-gnu, linux-arm64-gnu, darwin-arm64, win32-x64-msvc
   only**. On Intel macOS, Alpine/musl or win32-arm64, `npm install` exits 0 with a
   printed warning and the failure surfaces later, at `require()`.
-- The cognee rows need an OpenAI-compatible key. Ingestion is two LLM calls per chunk,
+- The cognee rows need an LLM: an OpenAI or Anthropic key, any OpenAI-compatible
+  endpoint, or a local Ollama model (see `src/llm.ts` and `.env.example`). Ingestion is
+  two LLM calls per chunk,
   and the keyed run seeds the archive through `relate()`, so each of the 5 prior posts
   also pays one `GRAPH_COMPLETION` recall whose answer is thrown away (it is what a
   real publish run would have done, five runs ago). Budget 6 recalls, 6 ingests.
@@ -38,17 +40,17 @@ post the author never edits again.
 
 ```
 npm install                 # dev deps + cognee; ~40 s and 372 MB, almost all addon
-npm test                    # the self-check: 5 assertions, no key, no network
+npm test                    # the self-check: 21 assertions, no key, no network
 npm run demo                # offline mode: rows 1-3, no key needed
-COGNEE_LLM_API_KEY=sk-... npm run demo    # all five rows
+cp .env.example .env        # pick LLM_PROVIDER and a key; npm run demo loads .env
+npm run demo                # all five rows once a provider is configured
 ```
 
 Measured on this machine (Linux, Node v26.8.2, npm 11.19.1, vitest 2.1.9): `npm test` is
 ~0.2 s as vitest reports it (0.20-0.24 s over four runs) and ~0.55 s wall once node and
 vitest startup are counted; `npm run demo` offline is 0.23-0.28 s wall over four runs
-(`time npx tsx src/demo.ts`). Install is the slow part, and the 372 MB is most of it. The cognee rows have **not** been run — no key was available — so
-the runner prints its own `performance.now()` elapsed per seeding step and for the whole
-cognee phase rather than this README guessing at a number.
+(`time npx tsx src/demo.ts`). Install is the slow part, and the 372 MB is most of it. The cognee rows time themselves: the runner prints `performance.now()` per seeding step
+and for the whole cognee phase. The keyed run below took 134.6 s for that phase.
 
 ## The scoreboard
 
@@ -87,7 +89,7 @@ word overlap  5/5
   for contrast, experiments/db_memory/results.json: 4/8 phrasings
   of one bug share no content word with the PR that fixed it
 
-cognee rows: skipped (set COGNEE_LLM_API_KEY to run them)
+cognee rows: skipped (set COGNEE_LLM_API_KEY, or LLM_PROVIDER=ollama for a keyless local run)
 there is no offline cognee mode in @cognee/cognee-ts@0.2.0: embeddingProvider:"mock"
 removes embeddings only, and MOCK_LLM needs a crate feature the npm build does not ship.
 ```
@@ -107,13 +109,72 @@ where that gets tested.
 
 ### A real run (with a key)
 
-<!-- paste a real run here -->
+Run on 2026-10-22 from an empty `.cognee/`, Linux, Node v26.8.2: `claude-haiku-4-5-20251001`
+for extraction and completion, `nomic-embed-text` through a local Ollama for embeddings.
+Verbatim stdout (log lines filtered out):
 
-Not run: no OpenAI-compatible key was available on the machine this was built on. No
-prose in this README describes what cognee returned, because nobody has seen it yet.
-When you run it, paste the verbatim stdout above, including the elapsed times — and if
-row 5 returns the same files row 4 already returned, or returns `nothing prior`, write
-that down here. The demo's job is to test the claim, not to assert it.
+```
+corpus: 5 published posts (9.3 KB), 1 being published
+new post: fixtures/blogs/post-just-use-a-database-is-half-right.md
+title: "Just use a database" is half right
+
+contentHash   0/5
+  sha256 of a different file matches nothing. this is the entire retrieval
+  capability of data/published.json.
+
+tag overlap   5/5   [ai agents database graph]
+  2 fixtures/blogs/01-grep-as-agent-memory.md  (ai agents)
+  3 fixtures/blogs/02-just-use-a-database.md  (ai agents database)
+  2 fixtures/blogs/m1-agent-writes-back-not-rag.md  (ai agents)
+  1 fixtures/blogs/m6-300-tokens-beat-113k.md  (ai)
+  2 fixtures/blogs/m7-benchmarks-vs-production.md  (ai agents)
+
+word overlap  5/5
+  (0/5 prior posts share no content word with this one)
+  56 fixtures/blogs/01-grep-as-agent-memory.md
+  83 fixtures/blogs/02-just-use-a-database.md
+  28 fixtures/blogs/m1-agent-writes-back-not-rag.md
+  14 fixtures/blogs/m6-300-tokens-beat-113k.md
+  11 fixtures/blogs/m7-benchmarks-vs-production.md
+  for contrast, experiments/db_memory/results.json: 4/8 phrasings
+  of one bug share no content word with the PR that fixed it
+
+cognee rows: llm anthropic/claude-haiku-4-5-20251001 · embeddings ollama/nomic-embed-text 768d @ http://localhost:11434/api/embed
+
+seeding: 1/5 fixtures/blogs/01-grep-as-agent-memory.md 33699 ms
+seeding: 2/5 fixtures/blogs/02-just-use-a-database.md 26910 ms
+seeding: 3/5 fixtures/blogs/m1-agent-writes-back-not-rag.md 14612 ms
+seeding: 4/5 fixtures/blogs/m6-300-tokens-beat-113k.md 16902 ms
+seeding: 5/5 fixtures/blogs/m7-benchmarks-vs-production.md 22780 ms
+
+cognee as a vector store [search CHUNKS, onlyContext, no LLM]
+  0.816 fixtures/blogs/02-just-use-a-database.md
+  0.757 fixtures/blogs/m1-agent-writes-back-not-rag.md
+  0.738 fixtures/blogs/01-grep-as-agent-memory.md
+  0.702 fixtures/blogs/m7-benchmarks-vs-production.md
+  0.640 fixtures/blogs/m6-300-tokens-beat-113k.md
+
+cognee as a memory layer [recall, GRAPH_COMPLETION]
+  related: fixtures/blogs/post-just-use-a-database-is-half-right.md
+    - [grep as Agent Memory: What It Costs at 100,000 Sessions](https://dev.to/example/grep-as-agent-memory)
+    - [The moment your agent writes back, it isn't RAG anymore](https://dev.to/example/agent-writes-back-not-rag)
+    note: Based on the knowledge graph provided, the earlier posts that cover the same ground as "Just use a database" is half right are:  1. <link> 2. <link>  The first post discusses performance trade-offs between different memory storage approaches (grep vs indexed databases), which directly relates to the
+    sources: graph 1.000
+
+cognee phase: 134571 ms
+```
+
+**What it shows.** Row 4, the plain vector lookup, ranks every prior post and puts
+`02-just-use-a-database.md` first (0.816). That is the right answer: the new post is the
+short version of article 02. Row 5 is selective - two of five, both real URLs from
+`published.json` - but it **left out 02**, the post row 4 ranked first, and kept 01 (grep)
+and m1. So on this corpus the graph did not beat the vector lookup at finding the closest
+prior post; what it added is a short list with a stated reason. A second run from an empty
+store reproduced it exactly - the same five row-4 scores, the same two links, 02 left out
+again. Six excerpts, one model: an observation, not a benchmark.
+
+Getting here took two fixes for `@cognee/cognee-ts` 0.2.0 behaviour, both reproduced in
+isolation before they were worked around (see Caveats).
 
 The mechanism being tested, quoted so it can be checked: cognee documents that
 `GRAPH_COMPLETION` embeds the query once, then searches "concurrently across every
@@ -130,7 +191,7 @@ pulled the same entity out of both, and it can fail.
 `src/index.ts`, inside `main()`'s per-file success path, as the new last statement of
 the inner `try` that began at `:100` — immediately after
 `saveState(cfg.statePath, map)` + `console.log(\`${verb}: ...\`)` at `:150-151`. The
-whole diff is `seam.patch`: five files, 25 added lines, generated with `git diff` and
+whole diff is `seam.patch`: five files, 27 added lines, generated with `git diff` and
 verified with `git apply --check` against the five fetched files at `8b42526`. One of
 the five is `package.json`: the lazy `await import` is still an import as far as `tsc`
 is concerned, so without the dependency `pnpm typecheck` fails with TS2307.
@@ -171,7 +232,22 @@ files, so row 1 is a real computation.
 
 ## Caveats
 
-- **Rows 4 and 5 are untested.** See above. No key, no run, no claim.
+- **A dataset in `@cognee/cognee-ts` 0.2.0 ingests once.** The second `remember()` into
+  it returns `PipelineRunCompleted` in ~2 ms having stored nothing, and `add()` +
+  `cognify()` reports `"alreadyCompleted": true` with 0 chunks. The first keyed run seeded
+  five posts and the store held one. So `relate()` now remembers each post into its own
+  dataset (`datasetFor()` in `src/memory.ts`), and recall stays unfiltered.
+- **`search()` honours only the first name in `datasets`.** `["c", "b"]` returned c's
+  chunks alone. Row 4 therefore searches unfiltered; the store holds nothing else.
+- **No Claude 5.x model works with this SDK.** It always sends `temperature` (0 by
+  default; `null` is rejected as "expected f64"), and every `claude-*-5*` model plus
+  opus-4-7 and opus-4-8 answers 400 "`temperature` is deprecated for this model" -
+  probed one by one. `src/llm.ts` refuses them up front; claude-haiku-4-5 and
+  claude-sonnet-4-6 work.
+- **The SDK keeps its metadata database in the cwd** (`sqlite:./cognee.db` by default),
+  outside `systemRootDirectory`. `src/llm.ts` sets `relationalDbUrl` to
+  `.cognee/cognee.db` so clearing `.cognee/` really resets the store. It also writes an
+  anonymous telemetry id to `./.anon_id`, which no setting moved; it is git-ignored.
 - **The overlap note is unvalidated prose.** `relate()` prints a `note:` line taken from
   `recall().searchResponse.result.data`, which is LLM text over a graph the same LLM
   built. Treat it as a prompt to the author, never as a finding. URLs are stripped out of
@@ -188,8 +264,8 @@ files, so row 1 is a real computation.
   `.github/workflows/publish.yml`.
 - **The seam is not covered by any test.** Stated at the top of `seam.patch` too. What
   *was* checked: applying `seam.patch` to the five files at `8b42526`, copying
-  `src/memory.ts` and `src/memory.test.ts` in and running dev-publish's own gates -
-  `tsc --noEmit` clean, `vitest run` 51 passed across 6 files, including the existing
+  `src/llm.ts`, `src/memory.ts` and both test files in and running dev-publish's own
+  gates - `tsc --noEmit` clean, `vitest run` 67 passed across 7 files, including the existing
   `config.test.ts` `toEqual` block the new config key would otherwise have broken. That
   says the seam compiles and reddens nothing; it still says nothing about its behaviour
   against a real dev.to key.
@@ -222,6 +298,7 @@ files, so row 1 is a real computation.
 - **Revision history / temporal query** — "what did I used to claim about X?" needs a
   second fixture shape and a second pair of API calls. It is the obvious next demo; the
   `plan_change` finding in `experiments/db_memory/results.json` is the same shape.
-- **`update()` and `forget()`** — an edited post accumulates copies in the dataset
-  instead of replacing the old one. `update(dataId, newData, datasetName)` is the fix.
+- **`update()` and `forget()`** — an edited post maps to the dataset it already has, and
+  in 0.2.0 that dataset does not ingest again, so edits are not remembered.
+  `update(dataId, newData, datasetName)` is the fix.
 - **CI wiring** — see the caveat above.
