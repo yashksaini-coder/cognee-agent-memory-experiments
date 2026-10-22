@@ -8,7 +8,9 @@ Usage: pip install playwright && playwright install chromium
 
 Covers the eight figures for material cognee approved in the v1 review (articles 01
 and 02, M1, M6, M7), plus the four for the v2 slate (article 03 and its post share
-pub-hash-vs-topic; M9, M10, M11). make_figures.py still renders all fourteen v1 ones.
+pub-hash-vs-topic; M9, M10, M11), plus the October 2026 batch: article 05 and M13
+share a05-two-names-two-nodes; M12 and M14 have one each. make_figures.py still renders
+all fourteen v1 ones.
 """
 
 import json
@@ -21,6 +23,7 @@ from playwright.sync_api import sync_playwright
 ROOT = Path(__file__).resolve().parents[1]
 GREP = json.loads((ROOT / "experiments/grep_memory/results.json").read_text())
 DB = json.loads((ROOT / "experiments/db_memory/results.json").read_text())
+ER = json.loads((ROOT / "demos/02-cognee-graph/entity-resolution-results.json").read_text())
 
 BG, CARD, CARD2 = "#e4e4e2", "#1b1b1a", "#2a2a28"
 WHITE, DIM, DIMMER = "#ffffff", "#9d9d98", "#6f6f6b"
@@ -518,6 +521,81 @@ def fact_that_changed():
                 "No memory layer was benchmarked here.")
 
 
+# ---------- October 2026 batch: article 05, M12, M13, M14 ----------
+
+def a05_two_names_two_nodes():
+    """Article 05 and M13. Phrasings are make_corpus.py's BUG_PHRASES in build order;
+    per-phrasing counts and the join are read from entity-resolution-results.json."""
+    sys.path.insert(0, str(ROOT / "experiments/grep_memory"))
+    from make_corpus import BUG_PHRASES
+    b1, builds = ER["builds"][0], ER["builds"]
+    reached = ", ".join(str(b["phrasing_entities"]) for b in builds)
+    joined = ", ".join(str(b["top_shared"]["phrasings"]) for b in builds)
+    rows = "".join(
+        f"<div style='display:flex;align-items:center;gap:18px;padding:7px 0;border-top:1.5px solid {RULE}'>"
+        f"<div class='p' style='flex:1;font-size:20px;color:{WHITE}'>&ldquo;{ph}&rdquo;</div>"
+        f"<div class='mono' style='font-size:22px;color:{DIM};width:150px;text-align:right'>{n} entities</div></div>"
+        for ph, n in zip(BUG_PHRASES, b1["per_phrasing"]))
+    left = (f"<div class='card col' style='width:930px;gap:4px;padding:24px 30px'>"
+            f"<div class='k' style='margin-bottom:8px'>eight customers, one bug &middot; build 1</div>{rows}</div>")
+    right = (f"<div class='card grow col center' style='gap:0'><div class='k'>the node most of them shared</div>"
+             f"<div class='t mono' style='font-size:34px;margin-top:18px'>open payments issue</div>"
+             f"<div class='big' style='font-size:72px;margin-top:18px'>{joined}</div>"
+             f"<div class='p' style='margin-top:6px'>of 8, across four builds</div>"
+             f"<div class='p' style='margin-top:26px;color:{WHITE}'>Not from any customer. From the agent's reply "
+             f"in every session:</div><div class='p mono' style='font-size:19px;margin-top:8px'>"
+             f"&ldquo;I've linked this to the open payments issue.&rdquo;</div></div>")
+    return page("Eight ways to report one bug. About seventy entities.",
+                f"Entity nodes the eight sessions reached after LLM extraction, four fresh builds: {reached}",
+                f"<div class='row' style='width:100%'>{left}{right}</div>",
+                f"Measured {ER['setup']['date']}: cognee {ER['setup']['cognee']}, {ER['setup']['llm']}, "
+                f"30 synthetic sessions. Entity identity is the normalized name.")
+
+
+def m12_close_the_old_fact():
+    """M12. grep and SQLite columns are measured (results.json); the graph column is
+    Cognee's documented behaviour, labelled DOCS, as in fact-that-changed."""
+    g, d = GREP[-1]["stale_fact"], DB["plan_change"]
+    h = d["history_in_sessions"][0]
+    col = lambda name, prov, body: (
+        f"<div class='card grow col' style='gap:18px'><div class='row' style='justify-content:space-between'>"
+        f"<div class='t mono'>{name}</div><div class='k'>{prov}</div></div>{body}</div>")
+    line = lambda text, sub="", strong=True: (
+        f"<div class='card2' style='padding:18px 22px'><div class='p mono' style='font-size:21px;"
+        f"color:{WHITE if strong else DIMMER}'>{text}</div>"
+        + (f"<div class='p' style='font-size:19px;margin-top:6px'>{sub}</div>" if sub else "") + "</div>")
+    grep = col("grep", "MEASURED", "".join(line(t, "no date") for t in g["plan_statements_returned"])
+               + "<div class='p'>Both come back. Which one is current is left to whoever reads them.</div>")
+    sql = col("SQL UPDATE", "MEASURED", line(f"plan = '{d['customers_table_says']}'")
+              + line(f"plan = '{h['from']}'", "overwritten - and when it changed is lost too", strong=False)
+              + "<div class='p'>The current value is right. The history is gone.</div>")
+    graph = col("temporal graph", "DOCS", line(f"{h['from']}", f"valid until {h['date']}", strong=False)
+                + line(f"{h['to']}", f"valid from {h['date']}")
+                + "<div class='p'>The old edge is closed, not deleted. Retrieval can prefer the current one.</div>")
+    return page("A new fact should close the old one, not sit beside it",
+                f"{g['customer']} moved from the {h['from']} plan to the {h['to']} plan on {h['date']}. "
+                f"What each store keeps",
+                f"<div class='row' style='width:100%'>{grep}{sql}{graph}</div>",
+                "MEASURED: 10,000 synthetic sessions, this repo, 1 Oct 2026. "
+                "DOCS: Cognee, Temporal Knowledge Graph, 19 Oct 2026.")
+
+
+def m14_better_not_bigger():
+    """M14. No numbers: the claim is a mechanism, quoted from Inside cognee 1.0."""
+    card = lambda k, t, p: (f"<div class='card grow col center' style='gap:16px'><div class='k'>{k}</div>"
+                            f"<div class='t' style='font-size:40px'>{t}</div><div class='p'>{p}</div></div>")
+    grows = card("memory that only grows", "Every answer stays as retrievable as it was",
+                 "A wrong fact and a right one rank the same next time. A correction fixes one reply.")
+    loop = card("memory with feedback", "Confirmed gets stronger. Corrected gets pushed down.",
+                "Cognee 1.0 records feedback as weights on graph nodes and edges, and those weights "
+                "feed retrieval scoring.")
+    return page("Memory should get better, not just bigger",
+                "&ldquo;A correction shouldn't die inside one chat.&rdquo;",
+                f"<div class='row' style='width:100%'>{grows}{loop}</div>",
+                "Source: Inside cognee 1.0 (26 Jun 2026, updated 3 Sep 2026) and the cognee 1.0 "
+                "announcement (26 Jun 2026).")
+
+
 FIGURES = {
     "grep-latency": grep_latency, "grep-recall": grep_recall,
     "db-key-vs-question": db_key_vs_question, "db-word-overlap": db_overlap, "db-five-jobs": five_jobs,
@@ -525,6 +603,8 @@ FIGURES = {
     "pub-hash-vs-topic": pub_hash_vs_topic, "m9-overlap-floor": m9_overlap_floor,
     "m10-index-same-recall": m10_index_same_recall, "m11-rigged-corpus": m11_rigged_corpus,
     "fact-that-changed": fact_that_changed,
+    "a05-two-names-two-nodes": a05_two_names_two_nodes,
+    "m12-close-the-old-fact": m12_close_the_old_fact, "m14-better-not-bigger": m14_better_not_bigger,
 }
 
 if __name__ == "__main__":
