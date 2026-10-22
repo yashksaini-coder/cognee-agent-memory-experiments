@@ -13,10 +13,10 @@ Nodes that trace back to one of the eight phrasings are tagged, so the question 
 article actually asks - do eight ways of describing one bug land on one entity? - is
 the thing you see. The printed summary gives the number: how many distinct Entity
 nodes the eight phrasings reached, and how many of those are shared by two or more.
-cognee 1.6.1 has no coreference or merge step; entity identity is uuid5 over the
+remember() has no coreference or merge step; entity identity is uuid5 over the
 normalized name (cognee/infrastructure/engine/models/DataPoint.py:177), so expect the
 eight to stay apart and the shared nodes to be whatever words they happen to have in
-common. Keyless runs extract with GLiNER's frozen label bank, which has no billing or
+common. Merging is a separate, opt-in pass over the finished graph - consolidate.py. Keyless runs extract with GLiNER's frozen label bank, which has no billing or
 invoice labels, so the names you get are not predictable in advance - that is the
 point of measuring instead of drawing.
 

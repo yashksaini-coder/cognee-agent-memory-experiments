@@ -45,6 +45,16 @@ python3 build_graph.py /tmp/corpus/10000         # build the real graph, needs c
 
 `graph.html` has no CDN, no npm and no build step — inline SVG and a few lines of plain JS.
 
+`consolidate.py` is the follow-up: cognee's opt-in entity consolidation over the graph
+`build_graph.py` built. It sweeps five similarity thresholds read-only, applies one with
+`--apply`, protects identifier types with `--protect`, and scores recall with `--ask`.
+The 22 Oct 2026 measurements behind article 05 are in `entity-resolution-results.json`.
+
+```bash
+python3 consolidate.py ../../corpus/10000 --protect session,customer,date   # dry-run sweep
+python3 consolidate.py ../../corpus/10000 --ask --runs 10                   # score recall
+```
+
 ## 03 · cognee inside dev-publish
 
 [dev-publish](https://github.com/yashksaini-coder/dev-publish) is a deliberately non-AI tool

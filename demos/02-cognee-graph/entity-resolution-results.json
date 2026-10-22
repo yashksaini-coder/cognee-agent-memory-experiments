@@ -1,0 +1,514 @@
+{
+ "what": "Eight phrasings of one bug through cognee's LLM extraction, then cognee's entity consolidation",
+ "setup": {
+  "date": "2026-10-22",
+  "cognee": "1.6.1",
+  "llm": "claude-haiku-4-5-20251001",
+  "embeddings": "fastembed BAAI/bge-small-en-v1.5 (384d)",
+  "slice": "30 docs from corpus/10000: 8 bug sessions (one per phrasing), 20 ordinary sessions, 1 plan-change session, PR #4812 note",
+  "join_sentence": "make_corpus.py inserts the agent line \"I've linked this to the open payments issue.\" into every bug session",
+  "protected_types": [
+   "session",
+   "support session",
+   "customer",
+   "organization",
+   "date",
+   "email address",
+   "email"
+  ],
+  "recall_question": "Which customers reported the billing problem where invoice line items go missing after a payment? List every customer id."
+ },
+ "builds": [
+  {
+   "remember_s": 147.8,
+   "nodes": 377,
+   "edges": 1048,
+   "phrasing_entities": 76,
+   "per_phrasing": [
+    17,
+    14,
+    14,
+    9,
+    15,
+    12,
+    10,
+    10
+   ],
+   "shared_by_2_plus": 17,
+   "top_shared": {
+    "name": "open payments issue",
+    "phrasings": 6
+   }
+  },
+  {
+   "remember_s": 66.3,
+   "nodes": 367,
+   "edges": 1045,
+   "phrasing_entities": 69,
+   "per_phrasing": [
+    13,
+    17,
+    11,
+    9,
+    14,
+    11,
+    10,
+    9
+   ],
+   "shared_by_2_plus": 16,
+   "top_shared": {
+    "name": "open payments issue",
+    "phrasings": 7
+   }
+  },
+  {
+   "remember_s": 74.6,
+   "nodes": 378,
+   "edges": 1049,
+   "phrasing_entities": 74,
+   "per_phrasing": [
+    12,
+    14,
+    11,
+    9,
+    13,
+    11,
+    10,
+    10
+   ],
+   "shared_by_2_plus": 10,
+   "top_shared": {
+    "name": "open payments issue",
+    "phrasings": 6
+   }
+  },
+  {
+   "remember_s": 75.4,
+   "nodes": 363,
+   "edges": 1010,
+   "phrasing_entities": 71,
+   "per_phrasing": [
+    13,
+    12,
+    12,
+    9,
+    13,
+    11,
+    10,
+    11
+   ],
+   "shared_by_2_plus": 14,
+   "top_shared": {
+    "name": "open payments issue",
+    "phrasings": 6
+   }
+  }
+ ],
+ "sweeps": {
+  "build1_unprotected": [
+   {
+    "threshold": 0.95,
+    "clusters": 10,
+    "nodes_removed": 10,
+    "phrasing_entities": 74,
+    "shared_by_2_plus": 19,
+    "widest": 6,
+    "merges_touching_phrasings": [
+     "'2026-01-05' = '2026-01-09'",
+     "'audit log download inquiry' = 'audit log download'",
+     "'dashboard eu region performance' = 'eu region dashboard performance'",
+     "'export ticket comments' = 'ticket comments export'",
+     "'project sync' = 'projects sync'",
+     "'session s000011' = 'session s001211'",
+     "'dashboard slow load eu region' = 'dashboard slow load eu'",
+     "'2026-01-10' = '2026-03-10'"
+    ]
+   },
+   {
+    "threshold": 0.9,
+    "clusters": 22,
+    "nodes_removed": 50,
+    "phrasing_entities": 69,
+    "shared_by_2_plus": 18,
+    "widest": 8,
+    "merges_touching_phrasings": [
+     "'2026-01-05' = '2026-01-07' = '2026-01-09' = '2026-01-10' = '2026-01-27' = '2026-01-28' = '2026-02-03' = '2026-03-10'",
+     "'umbrella-1031' = 'umbrella-1114'",
+     "'audit log download inquiry' = 'audit log download'",
+     "'session s000005' = 'session s000007' = 'session s000008' = 'session s000009' = 'session s000011' = 'session s001211'",
+     "'dashboard eu region performance' = 'dashboard slow load eu region' = 'dashboard slow load eu' = 'eu dashboard performance issue' = 'eu region dashboard performance'",
+     "'invite new admin to workspace' = 'workspace admin invitation'",
+     "'export ticket comments' = 'ticket comments export'",
+     "'project sync' = 'projects sync'",
+     "'wayne-1210' = 'wayne-1238'"
+    ]
+   },
+   {
+    "threshold": 0.85,
+    "clusters": 21,
+    "nodes_removed": 99,
+    "phrasing_entities": 60,
+    "shared_by_2_plus": 22,
+    "widest": 8,
+    "merges_touching_phrasings": [
+     "'globex-1080' = 'globex-1102' = 'globex-1120' = 'globex-1220' = 'globex-1290'",
+     "'2026-01-05' = '2026-01-07' = '2026-01-09' = '2026-01-10' = '2026-01-27' = '2026-01-28' = '2026-02-03' = '2026-03-10'",
+     "'s000001' = 's000003' = 's000015' = 's000019' = 's000103' = 's000208' = 's000244' = 's000448' = 's000581' = 's000942' = 's000950' = 's000999' = 's001211' = 's001244' = 's001273' = 's001559' = 's001606' = 's002676' = 's002707' = 's002929' = 's003007' = 's003155' = 's003393' = 's003640' = 's004024' = 's004069' = 's004082' = 's004368' = 's005225' = 's005270' = 's005432' = 's005814' = 's005998' = 's006436' = 's006576' = 's007110' = 's007156' = 's007311' = 's007373' = 's007933' = 's007966' = 's008086' = 's008536' = 's008655' = 's008681' = 's008802' = 's008862' = 's008962' = 's009108' = 's009347' = 's009507' = 's009553' = 'session s000005' = 'session s000007' = 'session s000008' = 'session s000009' = 'session s000011' = 'session s001211'",
+     "'session s000006' = 'session s000010' = 'session s000012' = 'session s000014' = 'session s000017' = 'session s000103' = 'session s000244' = 'session s000950' = 'session_s000004'",
+     "'umbrella-1031' = 'umbrella-1114'",
+     "'mobile app daily logout' = 'mobile app logs out every morning'",
+     "'audit log download inquiry' = 'audit log download'",
+     "'dashboard eu region performance' = 'dashboard slow load eu region' = 'dashboard slow load eu' = 'eu dashboard performance issue' = 'eu region dashboard performance'",
+     "'invite new admin to workspace' = 'workspace admin invitation'",
+     "'initech-1205' = 'initech-1216' = 'initech-1293'",
+     "'export ticket comments' = 'ticket comments export'",
+     "'project sync' = 'projects sync'",
+     "'open payments issue' = 'payment issue'",
+     "'429 error' = '429 rate limit error'",
+     "'wayne-1210' = 'wayne-1238'",
+     "'line items vanish from invoice after payment' = 'missing invoice line items'",
+     "'massive-1275' = 'massive-1283'"
+    ]
+   },
+   {
+    "threshold": 0.8,
+    "clusters": 25,
+    "nodes_removed": 118,
+    "phrasing_entities": 55,
+    "shared_by_2_plus": 23,
+    "widest": 8,
+    "merges_touching_phrasings": [
+     "'globex-1080' = 'globex-1102' = 'globex-1120' = 'globex-1220' = 'globex-1290'",
+     "'2026-01-05' = '2026-01-07' = '2026-01-09' = '2026-01-10' = '2026-01-27' = '2026-01-28' = '2026-02-03' = '2026-03-10'",
+     "'s000001' = 's000003' = 's000015' = 's000019' = 's000038' = 's000103' = 's000208' = 's000244' = 's000448' = 's000581' = 's000942' = 's000950' = 's000999' = 's001211' = 's001244' = 's001273' = 's001559' = 's001606' = 's002676' = 's002707' = 's002929' = 's003007' = 's003155' = 's003393' = 's003640' = 's004024' = 's004069' = 's004082' = 's004368' = 's005225' = 's005270' = 's005375' = 's005432' = 's005814' = 's005998' = 's006436' = 's006576' = 's007110' = 's007156' = 's007311' = 's007373' = 's007933' = 's007966' = 's008086' = 's008536' = 's008655' = 's008681' = 's008802' = 's008862' = 's008962' = 's009108' = 's009347' = 's009507' = 's009553' = 'session s000005' = 'session s000007' = 'session s000008' = 'session s000009' = 'session s000011' = 'session s001211'",
+     "'api 429 error' = 'api returns 429 on project sync'",
+     "'session s000006' = 'session s000010' = 'session s000012' = 'session s000014' = 'session s000017' = 'session s000103' = 'session s000244' = 'session s000950' = 'session_s000004'",
+     "'umbrella-1031' = 'umbrella-1114'",
+     "'mobile app daily logout' = 'mobile app logs out every morning'",
+     "'audit log download inquiry' = 'audit log download'",
+     "'finance@globex-1102.example' = 'finance@massive-1173.example' = 'finance@stark-1126.example' = 'finance@umbrella-1028.example' = 'finance@wayne-1210.example'",
+     "'dashboard eu region performance' = 'dashboard slow load eu region' = 'dashboard slow load eu' = 'eu dashboard performance issue' = 'eu region dashboard performance'",
+     "'invite new admin to workspace' = 'workspace admin invitation'",
+     "'initech-1008' = 'initech-1205' = 'initech-1216' = 'initech-1293'",
+     "'export ticket comments' = 'ticket comments export'",
+     "'acme-1016' = 'acme-1171' = 'acme-1275' = 'massive-1275' = 'massive-1283'",
+     "'project sync' = 'projects sync'",
+     "'billing bug' = 'line items vanish from invoice after payment' = 'missing invoice line items' = 'open payments issue' = 'payment invoice discrepancy' = 'payment issue'",
+     "'429 error' = '429 rate limit error'",
+     "'wayne-1210' = 'wayne-1238'"
+    ]
+   },
+   {
+    "threshold": 0.75,
+    "clusters": 26,
+    "nodes_removed": 130,
+    "phrasing_entities": 51,
+    "shared_by_2_plus": 23,
+    "widest": 8,
+    "merges_touching_phrasings": [
+     "'globex-1080' = 'globex-1102' = 'globex-1120' = 'globex-1220' = 'globex-1290' = 'initech-1008' = 'initech-1205' = 'initech-1216' = 'initech-1293' = 'stark-1126' = 'stark-1135' = 'stark-1203' = 'stark-1269'",
+     "'2026-01-05' = '2026-01-07' = '2026-01-09' = '2026-01-10' = '2026-01-27' = '2026-01-28' = '2026-02-03' = '2026-03-10'",
+     "'s000001' = 's000003' = 's000015' = 's000019' = 's000038' = 's000103' = 's000208' = 's000244' = 's000448' = 's000581' = 's000942' = 's000950' = 's000999' = 's001211' = 's001244' = 's001273' = 's001559' = 's001606' = 's002676' = 's002707' = 's002929' = 's003007' = 's003155' = 's003393' = 's003640' = 's004024' = 's004069' = 's004082' = 's004368' = 's005225' = 's005270' = 's005375' = 's005432' = 's005814' = 's005998' = 's006436' = 's006576' = 's007110' = 's007156' = 's007311' = 's007373' = 's007933' = 's007966' = 's008086' = 's008536' = 's008655' = 's008681' = 's008802' = 's008862' = 's008962' = 's009108' = 's009347' = 's009507' = 's009553' = 'session s000005' = 'session s000007' = 'session s000008' = 'session s000009' = 'session s000011' = 'session s001211'",
+     "'api 429 error' = 'api returns 429 on project sync'",
+     "'session s000006' = 'session s000010' = 'session s000012' = 'session s000014' = 'session s000017' = 'session s000103' = 'session s000244' = 'session s000950' = 'session_s000004'",
+     "'umbrella-1031' = 'umbrella-1114'",
+     "'mobile app daily logout' = 'mobile app logs out every morning'",
+     "'audit log download inquiry' = 'audit log download'",
+     "'billing bug' = 'invoice currency conversion' = 'invoice resend request' = 'line items vanish from invoice after payment' = 'missing invoice line items' = 'open payments issue' = 'payment invoice discrepancy' = 'payment issue' = 'payment sync delay' = 'vat number on invoices'",
+     "'finance@globex-1102.example' = 'finance@massive-1173.example' = 'finance@stark-1126.example' = 'finance@umbrella-1028.example' = 'finance@wayne-1210.example'",
+     "'dashboard eu region performance' = 'dashboard slow load eu region' = 'dashboard slow load eu' = 'eu dashboard performance issue' = 'eu region dashboard performance'",
+     "'add vat number to invoices' = 'change invoice email address' = 'invoice currency'",
+     "'invite new admin to workspace' = 'workspace admin invitation'",
+     "'export ticket comments' = 'ticket comments export'",
+     "'acme-1016' = 'acme-1171' = 'acme-1275' = 'massive-1275' = 'massive-1283'",
+     "'project sync' = 'projects sync'",
+     "'payments issue' = 'receipt issue'",
+     "'429 error' = '429 rate limit error'",
+     "'wayne-1210' = 'wayne-1238'"
+    ]
+   }
+  ],
+  "build1_protected": [
+   {
+    "threshold": 0.95,
+    "clusters": 5,
+    "nodes_removed": 5,
+    "phrasing_entities": 76,
+    "shared_by_2_plus": 17,
+    "widest": 6,
+    "merges_touching_phrasings": [
+     "'audit log download inquiry' = 'audit log download'",
+     "'dashboard eu region performance' = 'eu region dashboard performance'",
+     "'export ticket comments' = 'ticket comments export'",
+     "'project sync' = 'projects sync'",
+     "'dashboard slow load eu region' = 'dashboard slow load eu'"
+    ]
+   },
+   {
+    "threshold": 0.9,
+    "clusters": 6,
+    "nodes_removed": 9,
+    "phrasing_entities": 75,
+    "shared_by_2_plus": 18,
+    "widest": 6,
+    "merges_touching_phrasings": [
+     "'audit log download inquiry' = 'audit log download'",
+     "'dashboard eu region performance' = 'dashboard slow load eu region' = 'dashboard slow load eu' = 'eu dashboard performance issue' = 'eu region dashboard performance'",
+     "'invite new admin to workspace' = 'workspace admin invitation'",
+     "'export ticket comments' = 'ticket comments export'",
+     "'project sync' = 'projects sync'"
+    ]
+   },
+   {
+    "threshold": 0.85,
+    "clusters": 10,
+    "nodes_removed": 13,
+    "phrasing_entities": 72,
+    "shared_by_2_plus": 19,
+    "widest": 7,
+    "merges_touching_phrasings": [
+     "'mobile app daily logout' = 'mobile app logs out every morning'",
+     "'audit log download inquiry' = 'audit log download'",
+     "'dashboard eu region performance' = 'dashboard slow load eu region' = 'dashboard slow load eu' = 'eu dashboard performance issue' = 'eu region dashboard performance'",
+     "'invite new admin to workspace' = 'workspace admin invitation'",
+     "'export ticket comments' = 'ticket comments export'",
+     "'project sync' = 'projects sync'",
+     "'open payments issue' = 'payment issue'",
+     "'429 error' = '429 rate limit error'",
+     "'line items vanish from invoice after payment' = 'missing invoice line items'"
+    ]
+   },
+   {
+    "threshold": 0.8,
+    "clusters": 12,
+    "nodes_removed": 19,
+    "phrasing_entities": 69,
+    "shared_by_2_plus": 18,
+    "widest": 7,
+    "merges_touching_phrasings": [
+     "'api 429 error' = 'api returns 429 on project sync'",
+     "'mobile app daily logout' = 'mobile app logs out every morning'",
+     "'audit log download inquiry' = 'audit log download'",
+     "'dashboard eu region performance' = 'dashboard slow load eu region' = 'dashboard slow load eu' = 'eu dashboard performance issue' = 'eu region dashboard performance'",
+     "'invite new admin to workspace' = 'workspace admin invitation'",
+     "'export ticket comments' = 'ticket comments export'",
+     "'project sync' = 'projects sync'",
+     "'billing bug' = 'line items vanish from invoice after payment' = 'missing invoice line items' = 'open payments issue' = 'payment invoice discrepancy' = 'payment issue'",
+     "'429 error' = '429 rate limit error'"
+    ]
+   },
+   {
+    "threshold": 0.75,
+    "clusters": 15,
+    "nodes_removed": 29,
+    "phrasing_entities": 66,
+    "shared_by_2_plus": 18,
+    "widest": 7,
+    "merges_touching_phrasings": [
+     "'api 429 error' = 'api returns 429 on project sync'",
+     "'mobile app daily logout' = 'mobile app logs out every morning'",
+     "'audit log download inquiry' = 'audit log download'",
+     "'billing bug' = 'invoice currency conversion' = 'invoice resend request' = 'line items vanish from invoice after payment' = 'missing invoice line items' = 'open payments issue' = 'payment invoice discrepancy' = 'payment issue' = 'payment sync delay' = 'vat number on invoices'",
+     "'dashboard eu region performance' = 'dashboard slow load eu region' = 'dashboard slow load eu' = 'eu dashboard performance issue' = 'eu region dashboard performance'",
+     "'add vat number to invoices' = 'change invoice email address' = 'invoice currency'",
+     "'invite new admin to workspace' = 'workspace admin invitation'",
+     "'export ticket comments' = 'ticket comments export'",
+     "'project sync' = 'projects sync'",
+     "'payments issue' = 'receipt issue'",
+     "'429 error' = '429 rate limit error'"
+    ]
+   }
+  ],
+  "build4_protected": [
+   {
+    "threshold": 0.95,
+    "clusters": 8,
+    "nodes_removed": 8,
+    "phrasing_entities": 69,
+    "shared_by_2_plus": 15,
+    "widest": 6,
+    "merges_touching_phrasings": [
+     "'dashboard performance issue' = 'dashboard performance'",
+     "'csv export timeout issue' = 'csv export timeout'",
+     "'last month invoice' = 'last months invoice'",
+     "'dashboard slow loading in eu region' = 'dashboard slow loading in eu'",
+     "'help centre article'"
+    ]
+   },
+   {
+    "threshold": 0.9,
+    "clusters": 11,
+    "nodes_removed": 19,
+    "phrasing_entities": 67,
+    "shared_by_2_plus": 16,
+    "widest": 6,
+    "merges_touching_phrasings": [
+     "'dashboard eu performance' = 'dashboard performance issue - eu region' = 'dashboard performance issue' = 'dashboard performance' = 'dashboard slow load' = 'dashboard slow loading in eu region' = 'dashboard slow loading in eu'",
+     "'invoice email address change' = 'invoice email address settings' = 'invoice email address'",
+     "'api 429 error with project sync' = 'api 429 error with projects' = 'api 429 error'",
+     "'csv export timeout issue' = 'csv export timeout'",
+     "'last month invoice' = 'last months invoice'",
+     "'help centre article'"
+    ]
+   },
+   {
+    "threshold": 0.85,
+    "clusters": 14,
+    "nodes_removed": 29,
+    "phrasing_entities": 65,
+    "shared_by_2_plus": 17,
+    "widest": 7,
+    "merges_touching_phrasings": [
+     "'dashboard eu performance' = 'dashboard performance issue - eu region' = 'dashboard performance issue' = 'dashboard performance' = 'dashboard slow load' = 'dashboard slow loading in eu region' = 'dashboard slow loading in eu'",
+     "'eur invoice' = 'invoice email address change' = 'invoice email address settings' = 'invoice email address' = 'invoice in eur' = 'invoice'",
+     "'api 429 error with project sync' = 'api 429 error with projects' = 'api 429 error' = 'api returns 429 when syncing more than 20 projects'",
+     "'invoice missing line items' = 'missing line items issue'",
+     "'open payments issue' = 'payment issue'",
+     "'csv export timeout issue' = 'csv export timeout' = 'csv export times out above 50k rows'",
+     "'session s000014' = 'session s002676'",
+     "'vat number addition' = 'vat number on invoices'",
+     "'export comments feature' = 'export ticket comments' = 'ticket comments export'",
+     "'last month invoice' = 'last months invoice'",
+     "'help centre article' = 'help centre'"
+    ]
+   },
+   {
+    "threshold": 0.8,
+    "clusters": 15,
+    "nodes_removed": 34,
+    "phrasing_entities": 63,
+    "shared_by_2_plus": 18,
+    "widest": 7,
+    "merges_touching_phrasings": [
+     "'dashboard eu performance' = 'dashboard performance issue - eu region' = 'dashboard performance issue' = 'dashboard performance' = 'dashboard slow load' = 'dashboard slow loading in eu region' = 'dashboard slow loading in eu'",
+     "'eur invoice' = 'invoice email address change' = 'invoice email address settings' = 'invoice email address' = 'invoice in eur' = 'invoice' = 'vat number addition' = 'vat number on invoices'",
+     "'api 429 error with project sync' = 'api 429 error with projects' = 'api 429 error' = 'api returns 429 when syncing more than 20 projects'",
+     "'invoice missing line items' = 'missing line items issue'",
+     "'open payments issue' = 'payment issue'",
+     "'csv export timeout issue' = 'csv export timeout' = 'csv export times out above 50k rows'",
+     "'session s000014' = 'session s002676'",
+     "'export comments feature' = 'export ticket comments' = 'ticket comments export'",
+     "'last month invoice' = 'last months invoice'",
+     "'billing bug' = 'invoice payment discrepancy'",
+     "'help centre article' = 'help centre'"
+    ]
+   },
+   {
+    "threshold": 0.75,
+    "clusters": 13,
+    "nodes_removed": 37,
+    "phrasing_entities": 61,
+    "shared_by_2_plus": 16,
+    "widest": 7,
+    "merges_touching_phrasings": [
+     "'dashboard eu performance' = 'dashboard performance issue - eu region' = 'dashboard performance issue' = 'dashboard performance' = 'dashboard slow load' = 'dashboard slow loading in eu region' = 'dashboard slow loading in eu'",
+     "'eur invoice' = 'invoice email address change' = 'invoice email address settings' = 'invoice email address' = 'invoice in eur' = 'invoice' = 'vat number addition' = 'vat number on invoices'",
+     "'api 429 error with project sync' = 'api 429 error with projects' = 'api 429 error' = 'api returns 429 when syncing more than 20 projects'",
+     "'billing bug' = 'invoice missing line items' = 'invoice payment discrepancy' = 'invoice resend request' = 'missing line items issue' = 'open payments issue' = 'payment issue'",
+     "'csv export timeout issue' = 'csv export timeout' = 'csv export times out above 50k rows'",
+     "'session s000014' = 'session s002676'",
+     "'export comments feature' = 'export ticket comments' = 'ticket comments export'",
+     "'last month invoice' = 'last months invoice'",
+     "'help centre article' = 'help centre'"
+    ]
+   }
+  ]
+ },
+ "applies": [
+  {
+   "build": 1,
+   "threshold": 0.8,
+   "protected": true,
+   "ok": true,
+   "nodes": [
+    377,
+    358
+   ],
+   "phrasing_entities": [
+    76,
+    69
+   ],
+   "top_shared_after": {
+    "name": "open payments issue",
+    "phrasings": 7
+   }
+  },
+  {
+   "build": 2,
+   "threshold": 0.8,
+   "protected": true,
+   "ok": true,
+   "nodes": [
+    367,
+    347
+   ],
+   "phrasing_entities": [
+    69,
+    61
+   ]
+  },
+  {
+   "build": 3,
+   "threshold": 0.8,
+   "protected": true,
+   "ok": false,
+   "error": "ladybug csr_node_group.cpp:434 UNREACHABLE_CODE while re-pointing edges"
+  },
+  {
+   "build": 4,
+   "threshold": 0.8,
+   "protected": true,
+   "ok": false,
+   "error": "ladybug csr_node_group.cpp:434 UNREACHABLE_CODE while re-pointing edges"
+  }
+ ],
+ "recall": {
+  "build2_before": {
+   "right_of_8": [
+    3,
+    0,
+    4
+   ],
+   "wrong_total": 0
+  },
+  "build2_after": {
+   "right_of_8": [
+    4,
+    5,
+    5
+   ],
+   "wrong_total": 0
+  },
+  "build3_before": {
+   "right_of_8": [
+    1,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    0,
+    2,
+    2
+   ],
+   "wrong_total": 0
+  },
+  "build4_before": {
+   "right_of_8": [
+    1,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "wrong_total": 0
+  },
+  "note": "build3's after-asks ran on a graph left by a crashed merge and are excluded"
+ }
+}

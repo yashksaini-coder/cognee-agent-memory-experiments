@@ -25,3 +25,5 @@ demos/02-cognee-graph/graph.html
 
 # secrets
 .env
+demos/02-cognee-graph/graph.consolidated.json
+demos/02-cognee-graph/graph.consolidated.html
