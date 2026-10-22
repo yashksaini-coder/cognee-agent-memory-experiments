@@ -1,6 +1,21 @@
+import { createHash } from "node:crypto";
+import { LlmConfigError, resolveLlm } from "./llm.js";
 import type { ParsedBlog, PublishedMap, PublishedRecord } from "./types.js";
 
-const DATASET = "dev-publish";
+// One dataset per post, not one for the archive. In 0.2.0 a dataset ingests once: the
+// second remember() into it returns PipelineRunCompleted in ~2 ms having stored
+// nothing, and add()+cognify() says so outright ("alreadyCompleted": true, 0 chunks).
+// Seeding five posts into one dataset kept only the first (verified 2026-10-22).
+// Re-publishing a post maps to the same dataset and is skipped, so edits are not
+// re-ingested - the same limit the README already lists under update().
+export const DATASET_PREFIX = "dev-publish-";
+// Readable slug of the whole path plus a hash of it: with ingest-once datasets a name
+// collision (blogs/a/intro.md vs blogs/b/intro.md, or two non-ASCII names) would make the
+// second post a silent no-op.
+export function datasetFor(filePath: string): string {
+  const slug = filePath.toLowerCase().replace(/\.mdx?$/, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return `${DATASET_PREFIX}${slug.slice(-40)}-${createHash("sha256").update(filePath).digest("hex").slice(0, 8)}`;
+}
 
 // The @cognee/cognee-ts surface this module actually uses, transcribed from 0.2.0
 // lib/cognee.d.ts and lib/types.d.ts, so memory.test.ts can pass a plain object as
@@ -33,9 +48,22 @@ export interface MemorySdk {
   ): Promise<{ status: string; error: string | null }>;
 }
 
-export function createMemory(cfg: { cogneeLlmApiKey: string }): CogneeMemory | undefined {
-  if (!cfg.cogneeLlmApiKey) return undefined;
-  return new CogneeMemory(cfg.cogneeLlmApiKey);
+// dev-publish's config.ts reads COGNEE_LLM_API_KEY; everything else about the provider
+// comes from env through llm.ts. The memory step is advisory, so a config that cannot
+// work turns it off with one warning instead of throwing out of main() before anything
+// is published.
+export function createMemory(
+  cfg: { cogneeLlmApiKey: string },
+  env: NodeJS.ProcessEnv = process.env,
+): CogneeMemory | undefined {
+  try {
+    const llm = resolveLlm({ ...env, COGNEE_LLM_API_KEY: cfg.cogneeLlmApiKey || env.COGNEE_LLM_API_KEY });
+    return llm && new CogneeMemory(llm.settings);
+  } catch (error) {
+    const why = error instanceof LlmConfigError ? error.message : `unexpected: ${String(error)}`;
+    console.warn(`memory off: ${why}`);
+    return undefined;
+  }
 }
 
 export class CogneeMemory {
@@ -43,7 +71,7 @@ export class CogneeMemory {
   private warmed = false;
 
   constructor(
-    private readonly apiKey: string,
+    private readonly settings: Record<string, unknown>,
     sdk?: MemorySdk,
   ) {
     this.sdk = sdk;
@@ -56,15 +84,7 @@ export class CogneeMemory {
   private async client(): Promise<MemorySdk> {
     if (!this.sdk) {
       const { Cognee } = await import("@cognee/cognee-ts");
-      this.sdk = new Cognee({
-        llmModel: process.env.LLM_MODEL ?? "openai/gpt-5-mini",
-        llmApiKey: this.apiKey,
-        embeddingProvider: "openai",
-        embeddingModel: "text-embedding-3-small",
-        embeddingDimensions: 1536,
-        dataRootDirectory: "./.cognee/data",
-        systemRootDirectory: "./.cognee/system",
-      }) as unknown as MemorySdk;
+      this.sdk = new Cognee(this.settings) as unknown as MemorySdk;
     }
     if (!this.warmed) {
       await this.sdk.warm();
@@ -82,20 +102,26 @@ export class CogneeMemory {
   ): Promise<string[]> {
     const sdk = await this.client();
 
+    // Asked as a question that names the url. Handed the bare post, GRAPH_COMPLETION
+    // summarised it back - it even quoted a prior post's numbers - but prose carries no
+    // url, so the strict published.json intersection below found nothing (2026-10-22).
+    // Every remembered post has a `url:` line (see `text` below) for it to quote.
     const query = [
+      "Which earlier posts cover the same ground as the new post below? " +
+        "List the url of each one; answer 'none' if there is none.\n",
       blog.frontmatter.title,
       blog.frontmatter.description ?? "",
       (blog.frontmatter.tags ?? []).join(" "),
       blog.body.slice(0, 600),
     ].join("\n");
 
-    // No `datasets: [DATASET]` filter. In 0.2.0 the dataset-name filter needs a
+    // No `datasets` filter. In 0.2.0 the dataset-name filter needs a
     // user_id that CogneeRecallOptions has no field for (CogneeSearchOptions does:
     // `userId`), so recall() rejects it with "dataset name filter requires
     // SearchRequest.user_id to identify the owner" before any network call. Verified
     // 2026-10-19 on 0.2.0: the same call without `datasets` reaches the LLM instead.
     // Harmless here - remember() below is the only writer and only ever writes
-    // DATASET, so an unfiltered graph search has nothing else to find.
+    // dev-publish-* datasets, so an unfiltered graph search has nothing else to find.
     const recall = await sdk.recall(query, { topK: 5 });
 
     const raw = recall.searchResponse?.result?.data;
@@ -113,7 +139,7 @@ export class CogneeMemory {
       `post: ${blog.filePath}\nurl: ${record.url}\ntitle: ${blog.frontmatter.title}\n` +
       `tags: ${(blog.frontmatter.tags ?? []).join(", ")}\n` +
       `published: ${record.publishedDate}\n\n${blog.body}`;
-    const r = await sdk.remember({ type: "text", text }, DATASET);
+    const r = await sdk.remember({ type: "text", text }, datasetFor(blog.filePath));
     if (r.status === "PipelineRunErrored") throw new Error(r.error ?? "cognify failed");
 
     const sources =

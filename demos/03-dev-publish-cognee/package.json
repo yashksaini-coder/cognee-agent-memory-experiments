@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "demo": "tsx src/demo.ts",
+    "demo": "tsx --env-file-if-exists=.env src/demo.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
